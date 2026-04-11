@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "881587466096",
+    "project_id": "autism-app-8bb7e",
+    "storage_bucket": "autism-app-8bb7e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881587466096:android:ad852b5d3668a2a97169b5",
+        "android_client_info": {
+          "package_name": "com.namuun.autismapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5ASAUwt38hVdPbx14uvrGNVktFfpUjvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
