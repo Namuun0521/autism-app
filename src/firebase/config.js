@@ -16,4 +16,4 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // Түр зуур: гарах
-signOut(auth);
+// signOut(auth);
