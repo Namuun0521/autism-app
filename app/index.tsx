@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import {
   ScrollView,
@@ -31,6 +32,7 @@ export default function HomeScreen() {
       <View style={styles.grid}>
         <TouchableOpacity
           style={[styles.activityCard, { backgroundColor: "#FFF0F0" }]}
+          onPress={() => router.push("/Colors")}
         >
           <Text style={styles.activityEmoji}>🎨</Text>
           <Text style={styles.activityTitle}>Colors</Text>
