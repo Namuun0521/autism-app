@@ -40,6 +40,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={[styles.activityCard, { backgroundColor: "#F0F7FF" }]}
+          onPress={() => router.push("/Letters" as any)}
         >
           <Text style={styles.activityEmoji}>🔤</Text>
           <Text style={styles.activityTitle}>Letters</Text>
@@ -47,6 +48,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={[styles.activityCard, { backgroundColor: "#F0FFF4" }]}
+          onPress={() => router.push("/Numbers" as any)}
         >
           <Text style={styles.activityEmoji}>🔢</Text>
           <Text style={styles.activityTitle}>Numbers</Text>
@@ -54,6 +56,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={[styles.activityCard, { backgroundColor: "#FFF8F0" }]}
+          onPress={() => router.push("/Emotions" as any)}
         >
           <Text style={styles.activityEmoji}>😊</Text>
           <Text style={styles.activityTitle}>Emotions</Text>
