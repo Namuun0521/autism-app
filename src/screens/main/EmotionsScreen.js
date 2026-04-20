@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { saveProgress } from "../../firebase/firestore";
 
 const EMOTIONS = [
   { name: "Happy", emoji: "😊", description: "I feel happy!" },
@@ -31,7 +32,7 @@ export default function EmotionsScreen() {
 
   const [options, setOptions] = useState(() => getOptions(question));
 
-  const handleSelect = (emotion) => {
+  const handleSelect = async (emotion) => {
     if (selected) return;
     setSelected(emotion.name);
 
@@ -40,6 +41,7 @@ export default function EmotionsScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        await saveProgress("Emotions", newScore);
         setTimeout(() => {
           Alert.alert("🎉 Amazing!", "You found all 10 emotions!", [
             { text: "Go Home", onPress: () => router.back() },

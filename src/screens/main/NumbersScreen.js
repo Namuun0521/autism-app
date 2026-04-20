@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { saveProgress } from "../../firebase/firestore";
 
 const NUMBERS = [
   { number: 1, emoji: "1️⃣", items: "🍎" },
@@ -29,7 +30,7 @@ export default function NumbersScreen() {
 
   const [options, setOptions] = useState(() => getOptions(question));
 
-  const handleSelect = (item) => {
+  const handleSelect = async (item) => {
     if (selected) return;
     setSelected(item.number);
 
@@ -38,6 +39,7 @@ export default function NumbersScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        await saveProgress("Numbers", newScore);
         setTimeout(() => {
           Alert.alert("🎉 Amazing!", "You counted all 10!", [
             { text: "Go Home", onPress: () => router.back() },

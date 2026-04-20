@@ -102,7 +102,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import { saveProgress } from "../../firebase/firestore";
 const COLORS = [
   { name: "Red", hex: "#FF6B6B", emoji: "🔴" },
   { name: "Blue", hex: "#87CEEB", emoji: "🔵" },
@@ -121,7 +121,7 @@ export default function ColorsScreen() {
     COLORS[Math.floor(Math.random() * COLORS.length)],
   );
 
-  const handleSelect = (color) => {
+  const handleSelect = async (color) => {
     if (selected) return;
     setSelected(color.name);
 
@@ -130,6 +130,7 @@ export default function ColorsScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        await saveProgress("Colors", newScore);
         setTimeout(() => {
           Alert.alert("🎉 Amazing!", "You found all 10 colors!", [
             { text: "Go Home", onPress: () => router.back() },

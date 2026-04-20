@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { saveProgress } from "../../firebase/firestore";
 
 const LETTERS = [
   { letter: "A", word: "Apple", emoji: "🍎" },
@@ -31,7 +32,7 @@ export default function LettersScreen() {
 
   const [options, setOptions] = useState(() => getOptions(question));
 
-  const handleSelect = (letter) => {
+  const handleSelect = async (letter) => {
     if (selected) return;
     setSelected(letter.letter);
 
@@ -40,6 +41,7 @@ export default function LettersScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        await saveProgress("Letters", newScore);
         setTimeout(() => {
           Alert.alert("🎉 Amazing!", "You found all 10 letters!", [
             { text: "Go Home", onPress: () => router.back() },

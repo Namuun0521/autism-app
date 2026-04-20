@@ -1,5 +1,6 @@
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { signOut } from "firebase/auth";
+import { useCallback, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -8,10 +9,20 @@ import {
   View,
 } from "react-native";
 import { auth } from "../src/firebase/config";
+import { getTotalStars } from "../src/firebase/firestore";
 
 export default function HomeScreen() {
-  const user = auth.currentUser;
+  const [totalStars, setTotalStars] = useState(0);
 
+  useFocusEffect(
+    useCallback(() => {
+      const fetchStars = async () => {
+        const stars = await getTotalStars();
+        setTotalStars(stars);
+      };
+      fetchStars();
+    }, []),
+  );
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -22,9 +33,10 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.cardEmoji}>🌟</Text>
-        <Text style={styles.cardTitle}>Today's Tasks</Text>
-        <Text style={styles.cardSubtitle}>0 tasks completed</Text>
+        <Text style={styles.cardEmoji}>⭐</Text>
+        <Text style={styles.cardTitle}>Total Stars</Text>
+        <Text style={styles.cardScore}>{totalStars}</Text>
+        <Text style={styles.cardSubtitle}>Keep going! 🚀</Text>
       </View>
 
       <Text style={styles.sectionTitle}>Activities</Text>
@@ -88,6 +100,12 @@ const styles = StyleSheet.create({
   cardEmoji: { fontSize: 40, marginBottom: 8 },
   cardTitle: {
     fontSize: 20,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 4,
+  },
+  cardScore: {
+    fontSize: 48,
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 4,
