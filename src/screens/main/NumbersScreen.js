@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import ConfettiCannon from "react-native-confetti-cannon";
 import { saveProgress } from "../../firebase/firestore";
 
 const NUMBERS = [
@@ -17,6 +18,7 @@ const TOTAL = 10;
 export default function NumbersScreen() {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
+  const confettiRef = useRef(null);
   const [question, setQuestion] = useState(
     NUMBERS[Math.floor(Math.random() * NUMBERS.length)],
   );
@@ -39,12 +41,13 @@ export default function NumbersScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        confettiRef.current?.start();
         await saveProgress("Numbers", newScore);
         setTimeout(() => {
-          Alert.alert("🎉 Amazing!", "You counted all 10!", [
+          Alert.alert("🎉 Amazing!", "You counted all 10 numbers!", [
             { text: "Go Home", onPress: () => router.back() },
           ]);
-        }, 500);
+        }, 2000);
       } else {
         setTimeout(() => {
           const newQuestion =
@@ -103,6 +106,13 @@ export default function NumbersScreen() {
           </TouchableOpacity>
         ))}
       </View>
+      <ConfettiCannon
+        ref={confettiRef}
+        count={100}
+        origin={{ x: -10, y: 0 }}
+        autoStart={false}
+        fadeOut={true}
+      />
     </View>
   );
 }

@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import ConfettiCannon from "react-native-confetti-cannon";
 import { saveProgress } from "../../firebase/firestore";
 
 const LETTERS = [
@@ -19,6 +20,7 @@ const TOTAL = 10;
 export default function LettersScreen() {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
+  const confettiRef = useRef(null);
   const [question, setQuestion] = useState(
     LETTERS[Math.floor(Math.random() * LETTERS.length)],
   );
@@ -41,12 +43,13 @@ export default function LettersScreen() {
       setScore(newScore);
 
       if (newScore === TOTAL) {
+        confettiRef.current?.start();
         await saveProgress("Letters", newScore);
         setTimeout(() => {
           Alert.alert("🎉 Amazing!", "You found all 10 letters!", [
             { text: "Go Home", onPress: () => router.back() },
           ]);
-        }, 500);
+        }, 2000);
       } else {
         setTimeout(() => {
           const newQuestion =
@@ -106,6 +109,13 @@ export default function LettersScreen() {
           </TouchableOpacity>
         ))}
       </View>
+      <ConfettiCannon
+        ref={confettiRef}
+        count={100}
+        origin={{ x: -10, y: 0 }}
+        autoStart={false}
+        fadeOut={true}
+      />
     </View>
   );
 }
