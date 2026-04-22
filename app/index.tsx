@@ -23,6 +23,7 @@ export default function HomeScreen() {
       fetchStars();
     }, []),
   );
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -39,40 +40,20 @@ export default function HomeScreen() {
         <Text style={styles.cardSubtitle}>Keep going! 🚀</Text>
       </View>
 
-      <Text style={styles.sectionTitle}>Activities</Text>
+      <TouchableOpacity
+        style={styles.startButton}
+        onPress={() => router.push("/Kids" as any)}
+      >
+        <Text style={styles.startEmoji}>🧒</Text>
+        <Text style={styles.startTitle}>Start Learning!</Text>
+        <Text style={styles.startSub}>Tap here to begin</Text>
+      </TouchableOpacity>
 
-      <View style={styles.grid}>
-        <TouchableOpacity
-          style={[styles.activityCard, { backgroundColor: "#FFF0F0" }]}
-          onPress={() => router.push("/Colors")}
-        >
-          <Text style={styles.activityEmoji}>🎨</Text>
-          <Text style={styles.activityTitle}>Colors</Text>
-        </TouchableOpacity>
+      <Text style={styles.sectionTitle}>Progress</Text>
 
-        <TouchableOpacity
-          style={[styles.activityCard, { backgroundColor: "#F0F7FF" }]}
-          onPress={() => router.push("/Letters" as any)}
-        >
-          <Text style={styles.activityEmoji}>🔤</Text>
-          <Text style={styles.activityTitle}>Letters</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.activityCard, { backgroundColor: "#F0FFF4" }]}
-          onPress={() => router.push("/Numbers" as any)}
-        >
-          <Text style={styles.activityEmoji}>🔢</Text>
-          <Text style={styles.activityTitle}>Numbers</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.activityCard, { backgroundColor: "#FFF8F0" }]}
-          onPress={() => router.push("/Emotions" as any)}
-        >
-          <Text style={styles.activityEmoji}>😊</Text>
-          <Text style={styles.activityTitle}>Emotions</Text>
-        </TouchableOpacity>
+      <View style={styles.progressCard}>
+        <Text style={styles.progressText}>⭐ {totalStars} stars collected</Text>
+        <Text style={styles.progressSub}>Keep practicing every day!</Text>
       </View>
     </ScrollView>
   );
@@ -95,7 +76,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 24,
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 24,
   },
   cardEmoji: { fontSize: 40, marginBottom: 8 },
   cardTitle: {
@@ -111,19 +92,46 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   cardSubtitle: { fontSize: 14, color: "#D4CAFF" },
+  startButton: {
+    backgroundColor: "#FF6B6B",
+    borderRadius: 24,
+    padding: 28,
+    alignItems: "center",
+    marginBottom: 32,
+    shadowColor: "#FF6B6B",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 6,
+  },
+  startEmoji: { fontSize: 56, marginBottom: 8 },
+  startTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 4,
+  },
+  startSub: { fontSize: 14, color: "#FFE0E0" },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 16,
   },
-  grid: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
-  activityCard: {
-    width: "47%",
+  progressCard: {
+    backgroundColor: "#fff",
     borderRadius: 16,
     padding: 20,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 3,
   },
-  activityEmoji: { fontSize: 36, marginBottom: 8 },
-  activityTitle: { fontSize: 14, fontWeight: "bold", color: "#333" },
+  progressText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 4,
+  },
+  progressSub: { fontSize: 14, color: "#999" },
 });
