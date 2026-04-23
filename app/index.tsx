@@ -27,7 +27,9 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello, Mom! 👋</Text>
+        <Text style={styles.greeting}>
+          Hello, {auth.currentUser?.email?.split("@")[0]}! 👋
+        </Text>
         <TouchableOpacity onPress={() => signOut(auth)}>
           <Text style={styles.signOut}>Sign out</Text>
         </TouchableOpacity>
