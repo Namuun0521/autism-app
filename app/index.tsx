@@ -55,6 +55,15 @@ export default function HomeScreen() {
         <Text style={styles.progressText}>⭐ {totalStars} stars collected</Text>
         <Text style={styles.progressSub}>Keep practicing every day!</Text>
       </View>
+      <View style={styles.links}>
+        <TouchableOpacity onPress={() => router.push("/Privacy" as any)}>
+          <Text style={styles.link}>Privacy Policy</Text>
+        </TouchableOpacity>
+        <Text style={styles.linkDivider}>·</Text>
+        <TouchableOpacity onPress={() => router.push("/Terms" as any)}>
+          <Text style={styles.link}>Terms of Service</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -134,4 +143,13 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   progressSub: { fontSize: 14, color: "#999" },
+  links: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 24,
+    gap: 8,
+  },
+  link: { fontSize: 13, color: "#6B4EFF" },
+  linkDivider: { fontSize: 13, color: "#999" },
 });
