@@ -40,8 +40,9 @@ export default function ColorsScreen() {
         }, 2000);
       } else {
         setTimeout(() => {
+          const others = COLORS.filter((c) => c.name !== question.name);
           setSelected(null);
-          setQuestion(COLORS[Math.floor(Math.random() * COLORS.length)]);
+          setQuestion(others[Math.floor(Math.random() * others.length)]);
         }, 800);
       }
     } else {
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 16,
+    marginTop: 48,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
   progress: { fontSize: 18, fontWeight: "bold", color: "#333" },

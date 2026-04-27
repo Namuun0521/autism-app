@@ -13,6 +13,24 @@ const LETTERS = [
   { letter: "F", word: "Fish", emoji: "🐟" },
   { letter: "G", word: "Grape", emoji: "🍇" },
   { letter: "H", word: "House", emoji: "🏠" },
+  { letter: "I", word: "Ice cream", emoji: "🍦" },
+  { letter: "J", word: "Juice", emoji: "🧃" },
+  { letter: "K", word: "Kite", emoji: "🪁" },
+  { letter: "L", word: "Lion", emoji: "🦁" },
+  { letter: "M", word: "Moon", emoji: "🌙" },
+  { letter: "N", word: "Nut", emoji: "🥜" },
+  { letter: "O", word: "Orange", emoji: "🍊" },
+  { letter: "P", word: "Pizza", emoji: "🍕" },
+  { letter: "Q", word: "Queen", emoji: "👑" },
+  { letter: "R", word: "Rainbow", emoji: "🌈" },
+  { letter: "S", word: "Star", emoji: "⭐" },
+  { letter: "T", word: "Tiger", emoji: "🐯" },
+  { letter: "U", word: "Umbrella", emoji: "☂️" },
+  { letter: "V", word: "Violin", emoji: "🎻" },
+  { letter: "W", word: "Whale", emoji: "🐳" },
+  { letter: "X", word: "Xylophone", emoji: "🎵" },
+  { letter: "Y", word: "Yarn", emoji: "🧶" },
+  { letter: "Z", word: "Zebra", emoji: "🦓" },
 ];
 
 const TOTAL = 10;
@@ -52,8 +70,8 @@ export default function LettersScreen() {
         }, 2000);
       } else {
         setTimeout(() => {
-          const newQuestion =
-            LETTERS[Math.floor(Math.random() * LETTERS.length)];
+          const others = LETTERS.filter((l) => l.letter !== question.letter);
+          const newQuestion = others[Math.floor(Math.random() * others.length)];
           setSelected(null);
           setQuestion(newQuestion);
           setOptions(getOptions(newQuestion));
@@ -127,7 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 16,
+    marginTop: 48,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
   progress: { fontSize: 18, fontWeight: "bold", color: "#333" },

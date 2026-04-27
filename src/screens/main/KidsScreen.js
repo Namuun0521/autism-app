@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 32,
-    marginTop: 16,
+    marginBottom: 20,
+    marginTop: 48,
     gap: 16,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
@@ -70,13 +70,13 @@ const styles = StyleSheet.create({
   card: {
     width: "47%",
     borderRadius: 24,
-    padding: 28,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 10,
     elevation: 4,
   },
-  cardEmoji: { fontSize: 56, marginBottom: 12 },
+  cardEmoji: { fontSize: 44, marginBottom: 8 },
   cardTitle: { fontSize: 18, fontWeight: "bold", color: "#333" },
 });

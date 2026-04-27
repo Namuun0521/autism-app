@@ -5,12 +5,16 @@ import ConfettiCannon from "react-native-confetti-cannon";
 import { saveProgress } from "../../firebase/firestore";
 
 const NUMBERS = [
-  { number: 1, emoji: "1️⃣", items: "🍎" },
+  { number: 1, emoji: "1️⃣", items: "🌟" },
   { number: 2, emoji: "2️⃣", items: "🍎🍎" },
-  { number: 3, emoji: "3️⃣", items: "🍎🍎🍎" },
-  { number: 4, emoji: "4️⃣", items: "🍎🍎🍎🍎" },
-  { number: 5, emoji: "5️⃣", items: "🍎🍎🍎🍎🍎" },
-  { number: 6, emoji: "6️⃣", items: "🍎🍎🍎🍎🍎🍎" },
+  { number: 3, emoji: "3️⃣", items: "🐶🐶🐶" },
+  { number: 4, emoji: "4️⃣", items: "🌈🌈🌈🌈" },
+  { number: 5, emoji: "5️⃣", items: "⭐⭐⭐⭐⭐" },
+  { number: 6, emoji: "6️⃣", items: "🍭🍭🍭🍭🍭🍭" },
+  { number: 7, emoji: "7️⃣", items: "🦋🦋🦋🦋🦋🦋🦋" },
+  { number: 8, emoji: "8️⃣", items: "🍓🍓🍓🍓🍓🍓🍓🍓" },
+  { number: 9, emoji: "9️⃣", items: "🐱🐱🐱🐱🐱🐱🐱🐱🐱" },
+  { number: 10, emoji: "🔟", items: "🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈" },
 ];
 
 const TOTAL = 10;
@@ -50,8 +54,8 @@ export default function NumbersScreen() {
         }, 2000);
       } else {
         setTimeout(() => {
-          const newQuestion =
-            NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
+          const others = NUMBERS.filter((n) => n.number !== question.number);
+          const newQuestion = others[Math.floor(Math.random() * others.length)];
           setSelected(null);
           setQuestion(newQuestion);
           setOptions(getOptions(newQuestion));
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 16,
+    marginTop: 48,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
   progress: { fontSize: 18, fontWeight: "bold", color: "#333" },

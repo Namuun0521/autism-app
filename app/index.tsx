@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 24,
-    marginTop: 16,
+    marginTop: 48,
   },
   greeting: { fontSize: 22, fontWeight: "bold", color: "#333" },
   signOut: { fontSize: 14, color: "#999" },

@@ -52,8 +52,8 @@ export default function EmotionsScreen() {
         }, 2000);
       } else {
         setTimeout(() => {
-          const newQuestion =
-            EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)];
+          const others = EMOTIONS.filter((e) => e.name !== question.name);
+          const newQuestion = others[Math.floor(Math.random() * others.length)];
           setSelected(null);
           setQuestion(newQuestion);
           setOptions(getOptions(newQuestion));
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 16,
+    marginTop: 48,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
   progress: { fontSize: 18, fontWeight: "bold", color: "#333" },
