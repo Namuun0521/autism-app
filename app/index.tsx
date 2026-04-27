@@ -1,6 +1,6 @@
 import { router, useFocusEffect } from "expo-router";
 import { signOut } from "firebase/auth";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -13,6 +13,11 @@ import { getTotalStars } from "../src/firebase/firestore";
 
 export default function HomeScreen() {
   const [totalStars, setTotalStars] = useState(0);
+  useEffect(() => {
+    if (!auth.currentUser) {
+      router.replace("/login" as any);
+    }
+  }, []);
 
   useFocusEffect(
     useCallback(() => {

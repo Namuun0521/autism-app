@@ -79,7 +79,7 @@ export default function PrivacyPolicyScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F8F6FF" },
-  content: { padding: 24 },
+  content: { padding: 24, paddingTop: 60 },
   header: {
     flexDirection: "row",
     alignItems: "center",

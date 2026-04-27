@@ -3,7 +3,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { auth } from "../src/firebase/config";
-import LoginScreen from "../src/screens/auth/LoginScreen";
 
 export default function RootLayout() {
   const [user, setUser] = useState<User | null>(null);
@@ -17,8 +16,6 @@ export default function RootLayout() {
     return unsubscribe;
   }, []);
 
-  console.log("loading:", loading, "user:", user);
-
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -27,9 +24,17 @@ export default function RootLayout() {
     );
   }
 
-  if (!user) {
-    return <LoginScreen />;
-  }
-
-  return <Stack />;
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="login" />
+      <Stack.Screen name="Privacy" />
+      <Stack.Screen name="Terms" />
+      <Stack.Screen name="Colors" />
+      <Stack.Screen name="Letters" />
+      <Stack.Screen name="Numbers" />
+      <Stack.Screen name="Emotions" />
+      <Stack.Screen name="Kids" />
+    </Stack>
+  );
 }

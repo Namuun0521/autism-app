@@ -1,96 +1,4 @@
-// import {
-//   createUserWithEmailAndPassword,
-//   signInWithEmailAndPassword,
-// } from "firebase/auth";
-// import { useState } from "react";
-// import {
-//   Alert,
-//   StyleSheet,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   View,
-// } from "react-native";
-// import { auth } from "../../firebase/config";
-
-// export default function LoginScreen() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [isLogin, setIsLogin] = useState(true);
-
-//   const handleAuth = async () => {
-//     try {
-//       if (isLogin) {
-//         await signInWithEmailAndPassword(auth, email, password);
-//       } else {
-//         await createUserWithEmailAndPassword(auth, email, password);
-//       }
-//     } catch (error) {
-//       Alert.alert("Error", error.message);
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Autism App</Text>
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Email"
-//         value={email}
-//         onChangeText={setEmail}
-//         autoCapitalize="none"
-//       />
-//       <TextInput
-//         style={styles.input}
-//         placeholder="Password"
-//         value={password}
-//         onChangeText={setPassword}
-//         secureTextEntry
-//       />
-//       <TouchableOpacity style={styles.button} onPress={handleAuth}>
-//         <Text style={styles.buttonText}>{isLogin ? "Login" : "Register"}</Text>
-//       </TouchableOpacity>
-//       <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-//         <Text style={styles.switchText}>
-//           {isLogin ? "Create account" : "Already have account? Login"}
-//         </Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     padding: 24,
-//     backgroundColor: "#fff",
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//     marginBottom: 32,
-//     color: "#6B4EFF",
-//   },
-//   input: {
-//     borderWidth: 1,
-//     borderColor: "#ddd",
-//     borderRadius: 12,
-//     padding: 16,
-//     marginBottom: 16,
-//     fontSize: 16,
-//   },
-//   button: {
-//     backgroundColor: "#6B4EFF",
-//     borderRadius: 12,
-//     padding: 16,
-//     alignItems: "center",
-//     marginBottom: 16,
-//   },
-//   buttonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-//   switchText: { textAlign: "center", color: "#6B4EFF", fontSize: 14 },
-// });
+import { router } from "expo-router";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -126,6 +34,7 @@ export default function LoginScreen() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
+      router.replace("/");
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
@@ -181,6 +90,16 @@ export default function LoginScreen() {
               : "Already have an account? Login"}
           </Text>
         </TouchableOpacity>
+
+        <View style={styles.links}>
+          <TouchableOpacity onPress={() => router.push("/Privacy")}>
+            <Text style={styles.link}>Privacy Policy</Text>
+          </TouchableOpacity>
+          <Text style={styles.linkDivider}>·</Text>
+          <TouchableOpacity onPress={() => router.push("/Terms")}>
+            <Text style={styles.link}>Terms of Service</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -244,4 +163,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 8,
   },
+  links: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 16,
+    gap: 8,
+  },
+  link: { fontSize: 13, color: "#6B4EFF" },
+  linkDivider: { fontSize: 13, color: "#999" },
 });
