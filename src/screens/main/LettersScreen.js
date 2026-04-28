@@ -1,5 +1,6 @@
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
+import { playCorrect, playWrong } from "../../utils/sounds";
 import { useRef, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
@@ -59,6 +60,7 @@ export default function LettersScreen() {
 
     if (letter.letter === question.letter) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      playCorrect();
       const newScore = score + 1;
       setScore(newScore);
 
@@ -81,6 +83,7 @@ export default function LettersScreen() {
       }
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      playWrong();
       setTimeout(() => setSelected(null), 800);
     }
   };
