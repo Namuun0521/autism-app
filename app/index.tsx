@@ -9,10 +9,12 @@ import {
   View,
 } from "react-native";
 import { auth } from "../src/firebase/config";
-import { getTotalStars } from "../src/firebase/firestore";
+import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
 
 export default function HomeScreen() {
   const [totalStars, setTotalStars] = useState(0);
+  const [progress, setProgress] = useState<Record<string, number>>({});
+
   useEffect(() => {
     if (!auth.currentUser) {
       router.replace("/login" as any);
@@ -21,11 +23,15 @@ export default function HomeScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      const fetchStars = async () => {
-        const stars = await getTotalStars();
+      const fetchData = async () => {
+        const [stars, activityProgress] = await Promise.all([
+          getTotalStars(),
+          getActivityProgress(),
+        ]);
         setTotalStars(stars);
+        setProgress(activityProgress);
       };
-      fetchStars();
+      fetchData();
     }, []),
   );
 
@@ -58,10 +64,27 @@ export default function HomeScreen() {
 
       <Text style={styles.sectionTitle}>Progress</Text>
 
-      <View style={styles.progressCard}>
-        <Text style={styles.progressText}>⭐ {totalStars} stars collected</Text>
-        <Text style={styles.progressSub}>Keep practicing every day!</Text>
-      </View>
+      {[
+        { key: "Colors", emoji: "🎨", label: "Colors" },
+        { key: "Letters", emoji: "🔤", label: "Letters" },
+        { key: "Numbers", emoji: "🔢", label: "Numbers" },
+        { key: "Emotions", emoji: "😊", label: "Emotions" },
+      ].map(({ key, emoji, label }) => {
+        const score = progress[key] || 0;
+        const pct = Math.min((score / 10) * 100, 100);
+        return (
+          <View key={key} style={styles.progressCard}>
+            <View style={styles.progressHeader}>
+              <Text style={styles.progressEmoji}>{emoji}</Text>
+              <Text style={styles.progressLabel}>{label}</Text>
+              <Text style={styles.progressScore}>{score} ⭐</Text>
+            </View>
+            <View style={styles.progressBarBg}>
+              <View style={[styles.progressBarFill, { width: `${pct}%` }]} />
+            </View>
+          </View>
+        );
+      })}
       <View style={styles.links}>
         <TouchableOpacity onPress={() => router.push("/Privacy" as any)}>
           <Text style={styles.link}>Privacy Policy</Text>
@@ -136,20 +159,31 @@ const styles = StyleSheet.create({
   progressCard: {
     backgroundColor: "#fff",
     borderRadius: 16,
-    padding: 20,
-    alignItems: "center",
+    padding: 16,
+    marginBottom: 12,
     shadowColor: "#000",
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 3,
   },
-  progressText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: 4,
+  progressHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
   },
-  progressSub: { fontSize: 14, color: "#999" },
+  progressEmoji: { fontSize: 20, marginRight: 8 },
+  progressLabel: { fontSize: 16, fontWeight: "bold", color: "#333", flex: 1 },
+  progressScore: { fontSize: 14, color: "#6B4EFF", fontWeight: "bold" },
+  progressBarBg: {
+    height: 8,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 4,
+  },
+  progressBarFill: {
+    height: 8,
+    backgroundColor: "#6B4EFF",
+    borderRadius: 4,
+  },
   links: {
     flexDirection: "row",
     justifyContent: "center",

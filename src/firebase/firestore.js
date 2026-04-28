@@ -42,3 +42,19 @@ export const getTotalStars = async () => {
   }
   return total;
 };
+
+// Activity тус бүрийн дэвшил авах
+export const getActivityProgress = async () => {
+  const user = auth.currentUser;
+  if (!user) return {};
+
+  const activities = ["Colors", "Letters", "Numbers", "Emotions"];
+  const progress = {};
+
+  for (const activity of activities) {
+    const ref = doc(db, "users", user.uid, "progress", activity);
+    const snap = await getDoc(ref);
+    progress[activity] = snap.exists() ? snap.data().totalScore || 0 : 0;
+  }
+  return progress;
+};
