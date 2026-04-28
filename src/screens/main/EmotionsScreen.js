@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -39,6 +40,7 @@ export default function EmotionsScreen() {
     setSelected(emotion.name);
 
     if (emotion.name === question.name) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       const newScore = score + 1;
       setScore(newScore);
 
@@ -60,6 +62,7 @@ export default function EmotionsScreen() {
         }, 800);
       }
     } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       setTimeout(() => setSelected(null), 800);
     }
   };
