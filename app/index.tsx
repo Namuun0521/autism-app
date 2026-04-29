@@ -2,18 +2,29 @@ import { router, useFocusEffect } from "expo-router";
 import { signOut } from "firebase/auth";
 import { useCallback, useEffect, useState } from "react";
 import {
+  Alert,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { auth } from "../src/firebase/config";
-import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
+import {
+  getActivityProgress,
+  getChildName,
+  getTotalStars,
+  saveChildName,
+} from "../src/firebase/firestore";
 
 export default function HomeScreen() {
   const [totalStars, setTotalStars] = useState(0);
   const [progress, setProgress] = useState<Record<string, number>>({});
+  const [childName, setChildName] = useState<string | null>(null);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [nameInput, setNameInput] = useState("");
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -24,22 +35,39 @@ export default function HomeScreen() {
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
-        const [stars, activityProgress] = await Promise.all([
+        const [stars, activityProgress, name] = await Promise.all([
           getTotalStars(),
           getActivityProgress(),
+          getChildName(),
         ]);
         setTotalStars(stars);
         setProgress(activityProgress);
+        if (name) {
+          setChildName(name);
+        } else {
+          setShowNameModal(true);
+        }
       };
       fetchData();
     }, []),
   );
 
+  const handleSaveName = async () => {
+    const trimmed = nameInput.trim();
+    if (!trimmed) {
+      Alert.alert("Please enter a name");
+      return;
+    }
+    await saveChildName(trimmed);
+    setChildName(trimmed);
+    setShowNameModal(false);
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <Text style={styles.greeting}>
-          Hello, {auth.currentUser?.email?.split("@")[0]}! 👋
+          Hello, {childName || auth.currentUser?.email?.split("@")[0]}! 👋
         </Text>
         <TouchableOpacity onPress={() => signOut(auth)}>
           <Text style={styles.signOut}>Sign out</Text>
@@ -69,6 +97,7 @@ export default function HomeScreen() {
         { key: "Letters", emoji: "🔤", label: "Letters" },
         { key: "Numbers", emoji: "🔢", label: "Numbers" },
         { key: "Emotions", emoji: "😊", label: "Emotions" },
+        { key: "Shapes", emoji: "🔷", label: "Shapes" },
       ].map(({ key, emoji, label }) => {
         const score = progress[key] || 0;
         const pct = Math.min((score / 10) * 100, 100);
@@ -85,6 +114,7 @@ export default function HomeScreen() {
           </View>
         );
       })}
+
       <View style={styles.links}>
         <TouchableOpacity onPress={() => router.push("/Privacy" as any)}>
           <Text style={styles.link}>Privacy Policy</Text>
@@ -94,6 +124,27 @@ export default function HomeScreen() {
           <Text style={styles.link}>Terms of Service</Text>
         </TouchableOpacity>
       </View>
+
+      <Modal visible={showNameModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalEmoji}>👶</Text>
+            <Text style={styles.modalTitle}>What's your child's name?</Text>
+            <Text style={styles.modalSub}>We'll use it to greet them!</Text>
+            <TextInput
+              style={styles.modalInput}
+              placeholder="Enter name..."
+              placeholderTextColor="#999"
+              value={nameInput}
+              onChangeText={setNameInput}
+              autoFocus
+            />
+            <TouchableOpacity style={styles.modalButton} onPress={handleSaveName}>
+              <Text style={styles.modalButtonText}>Save</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -193,4 +244,45 @@ const styles = StyleSheet.create({
   },
   link: { fontSize: 13, color: "#6B4EFF" },
   linkDivider: { fontSize: 13, color: "#999" },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  modalBox: {
+    backgroundColor: "#fff",
+    borderRadius: 24,
+    padding: 32,
+    alignItems: "center",
+    width: "100%",
+  },
+  modalEmoji: { fontSize: 56, marginBottom: 12 },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  modalSub: { fontSize: 14, color: "#999", marginBottom: 20, textAlign: "center" },
+  modalInput: {
+    width: "100%",
+    borderWidth: 1.5,
+    borderColor: "#E0E0E0",
+    borderRadius: 16,
+    padding: 16,
+    fontSize: 18,
+    color: "#333",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  modalButton: {
+    backgroundColor: "#6B4EFF",
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 48,
+  },
+  modalButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
 });

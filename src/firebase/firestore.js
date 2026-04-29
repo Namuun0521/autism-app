@@ -1,4 +1,5 @@
 import { doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
+
 import { auth, db } from "./config";
 
 // Хүүхдийн дэвшил хадгалах
@@ -48,7 +49,7 @@ export const getActivityProgress = async () => {
   const user = auth.currentUser;
   if (!user) return {};
 
-  const activities = ["Colors", "Letters", "Numbers", "Emotions"];
+  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes"];
   const progress = {};
 
   for (const activity of activities) {
@@ -57,4 +58,19 @@ export const getActivityProgress = async () => {
     progress[activity] = snap.exists() ? snap.data().totalScore || 0 : 0;
   }
   return progress;
+};
+
+// Хүүхдийн нэр хадгалах
+export const saveChildName = async (name) => {
+  const user = auth.currentUser;
+  if (!user) return;
+  await setDoc(doc(db, "users", user.uid), { childName: name }, { merge: true });
+};
+
+// Хүүхдийн нэр авах
+export const getChildName = async () => {
+  const user = auth.currentUser;
+  if (!user) return null;
+  const snap = await getDoc(doc(db, "users", user.uid));
+  return snap.exists() ? snap.data().childName || null : null;
 };
