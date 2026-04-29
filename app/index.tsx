@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
 import { signOut } from "firebase/auth";
 import { useCallback, useEffect, useState } from "react";
@@ -12,12 +13,9 @@ import {
   View,
 } from "react-native";
 import { auth } from "../src/firebase/config";
-import {
-  getActivityProgress,
-  getChildName,
-  getTotalStars,
-  saveChildName,
-} from "../src/firebase/firestore";
+import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
+
+const CHILD_NAME_KEY = "child_name";
 
 export default function HomeScreen() {
   const [totalStars, setTotalStars] = useState(0);
@@ -38,7 +36,7 @@ export default function HomeScreen() {
         const [stars, activityProgress, name] = await Promise.all([
           getTotalStars(),
           getActivityProgress(),
-          getChildName(),
+          AsyncStorage.getItem(CHILD_NAME_KEY),
         ]);
         setTotalStars(stars);
         setProgress(activityProgress);
@@ -58,7 +56,7 @@ export default function HomeScreen() {
       Alert.alert("Please enter a name");
       return;
     }
-    await saveChildName(trimmed);
+    await AsyncStorage.setItem(CHILD_NAME_KEY, trimmed);
     setChildName(trimmed);
     setShowNameModal(false);
   };
