@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { playCorrect, playWrong } from "../../utils/sounds";
 import { useRef, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { saveProgress } from "../../firebase/firestore";
 
@@ -20,6 +21,7 @@ const EMOTIONS = [
 const TOTAL = 10;
 
 export default function EmotionsScreen() {
+  const insets = useSafeAreaInsets();
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const confettiRef = useRef(null);
@@ -71,7 +73,7 @@ export default function EmotionsScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.back}>← Back</Text>
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
-    marginTop: 48,
+    marginTop: 8,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
   progress: { fontSize: 18, fontWeight: "bold", color: "#333" },

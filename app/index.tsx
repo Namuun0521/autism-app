@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { signOut } from "firebase/auth";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -18,6 +19,7 @@ import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
 const CHILD_NAME_KEY = "child_name";
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const [totalStars, setTotalStars] = useState(0);
   const [progress, setProgress] = useState<Record<string, number>>({});
   const [childName, setChildName] = useState<string | null>(null);
@@ -62,7 +64,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]}>
       <View style={styles.header}>
         <Text style={styles.greeting}>
           Hello, {childName || auth.currentUser?.email?.split("@")[0]}! 👋
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 24,
-    marginTop: 48,
+    marginTop: 8,
   },
   greeting: { fontSize: 22, fontWeight: "bold", color: "#333" },
   signOut: { fontSize: 14, color: "#999" },

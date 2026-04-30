@@ -35,6 +35,7 @@ export default function RootLayout() {
       <Stack.Screen name="Numbers" />
       <Stack.Screen name="Emotions" />
       <Stack.Screen name="Kids" />
+      <Stack.Screen name="Shapes" />
     </Stack>
   );
 }

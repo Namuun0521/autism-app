@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   ScrollView,
   StyleSheet,
@@ -8,8 +9,9 @@ import {
 } from "react-native";
 
 export default function KidsScreen() {
+  const insets = useSafeAreaInsets();
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 8 }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.back}>← Back</Text>
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
-    marginTop: 48,
+    marginTop: 8,
     gap: 16,
   },
   back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
