@@ -69,9 +69,14 @@ export default function HomeScreen() {
         <Text style={styles.greeting}>
           Hello, {childName || auth.currentUser?.email?.split("@")[0]}! 👋
         </Text>
-        <TouchableOpacity onPress={() => signOut(auth)}>
-          <Text style={styles.signOut}>Sign out</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={() => router.push("/Settings" as any)}>
+            <Text style={styles.settingsIcon}>⚙️</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => signOut(auth)}>
+            <Text style={styles.signOut}>Sign out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.card}>
@@ -98,6 +103,7 @@ export default function HomeScreen() {
         { key: "Numbers", emoji: "🔢", label: "Numbers" },
         { key: "Emotions", emoji: "😊", label: "Emotions" },
         { key: "Shapes", emoji: "🔷", label: "Shapes" },
+        { key: "Animals", emoji: "🐶", label: "Animals" },
       ].map(({ key, emoji, label }) => {
         const score = progress[key] || 0;
         const pct = Math.min((score / 10) * 100, 100);
@@ -160,6 +166,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   greeting: { fontSize: 22, fontWeight: "bold", color: "#333" },
+  headerRight: { flexDirection: "row", alignItems: "center", gap: 12 },
+  settingsIcon: { fontSize: 20 },
   signOut: { fontSize: 14, color: "#999" },
   card: {
     backgroundColor: "#6B4EFF",

@@ -49,7 +49,7 @@ export const getActivityProgress = async () => {
   const user = auth.currentUser;
   if (!user) return {};
 
-  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes"];
+  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
   const progress = {};
 
   for (const activity of activities) {

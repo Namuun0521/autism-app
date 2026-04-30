@@ -59,6 +59,14 @@ export default function KidsScreen() {
           <Text style={styles.cardEmoji}>🔷</Text>
           <Text style={styles.cardTitle}>Shapes</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, { backgroundColor: "#D6FFE8" }]}
+          onPress={() => router.push("/Animals")}
+        >
+          <Text style={styles.cardEmoji}>🐶</Text>
+          <Text style={styles.cardTitle}>Animals</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
