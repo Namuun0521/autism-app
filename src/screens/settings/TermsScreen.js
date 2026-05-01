@@ -30,9 +30,9 @@ export default function TermsScreen() {
       <View style={styles.section}>
         <Text style={styles.heading}>2. Use of the App</Text>
         <Text style={styles.body}>
-          This app is designed to support children with autism in learning
-          colors, letters, numbers, and emotions. The app is intended to be used
-          under parental supervision.
+          LittleLearner is designed to support children in learning colors,
+          letters, numbers, shapes, animals, and emotions. The app is intended
+          to be used under parental supervision.
         </Text>
       </View>
 
@@ -78,6 +78,7 @@ export default function TermsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F8F6FF" },
   content: { padding: 24, paddingTop: 60 },
+
   header: {
     flexDirection: "row",
     alignItems: "center",

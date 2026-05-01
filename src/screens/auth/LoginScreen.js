@@ -50,8 +50,8 @@ export default function LoginScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.header}>
-        <Text style={styles.emoji}>🧩</Text>
-        <Text style={styles.title}>Autism App</Text>
+        <Text style={styles.emoji}>🌟</Text>
+        <Text style={styles.title}>LittleLearner</Text>
         <Text style={styles.subtitle}>
           {isLogin ? "Welcome back!" : "Create your account"}
         </Text>

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "autism-app",
+    "name": "LittleLearner",
     "slug": "autism-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,7 +10,13 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.namuun.autismapp"
+      "bundleIdentifier": "com.namuun.autismapp",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "LittleLearner does not use the microphone.",
+        "NSSpeechRecognitionUsageDescription": "LittleLearner does not use speech recognition.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.namuun.autismapp",
