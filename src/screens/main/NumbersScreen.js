@@ -1,11 +1,8 @@
-import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { playCorrect, playWrong } from "../../utils/sounds";
-import { useRef, useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
-import { saveProgress } from "../../firebase/firestore";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { GAME_TOTAL, useActivityGame } from "../../hooks/useActivityGame";
 
 const NUMBERS = [
   { number: 1, emoji: "1️⃣", items: "🌟" },
@@ -20,59 +17,10 @@ const NUMBERS = [
   { number: 10, emoji: "🔟", items: "🎈🎈🎈🎈🎈🎈🎈🎈🎈🎈" },
 ];
 
-const TOTAL = 10;
-
 export default function NumbersScreen() {
   const insets = useSafeAreaInsets();
-  const [selected, setSelected] = useState(null);
-  const [score, setScore] = useState(0);
-  const confettiRef = useRef(null);
-  const [question, setQuestion] = useState(
-    NUMBERS[Math.floor(Math.random() * NUMBERS.length)],
-  );
-
-  const getOptions = (correct) => {
-    const wrong = NUMBERS.filter((n) => n.number !== correct.number)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
-    return [...wrong, correct].sort(() => Math.random() - 0.5);
-  };
-
-  const [options, setOptions] = useState(() => getOptions(question));
-
-  const handleSelect = async (item) => {
-    if (selected) return;
-    setSelected(item.number);
-
-    if (item.number === question.number) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      playCorrect();
-      const newScore = score + 1;
-      setScore(newScore);
-
-      if (newScore === TOTAL) {
-        confettiRef.current?.start();
-        await saveProgress("Numbers", newScore);
-        setTimeout(() => {
-          Alert.alert("🎉 Amazing!", "You counted all 10 numbers!", [
-            { text: "Go Home", onPress: () => router.back() },
-          ]);
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          const others = NUMBERS.filter((n) => n.number !== question.number);
-          const newQuestion = others[Math.floor(Math.random() * others.length)];
-          setSelected(null);
-          setQuestion(newQuestion);
-          setOptions(getOptions(newQuestion));
-        }, 800);
-      }
-    } else {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      playWrong();
-      setTimeout(() => setSelected(null), 800);
-    }
-  };
+  const { selected, score, question, options, confettiRef, handleSelect } =
+    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!");
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -81,14 +29,12 @@ export default function NumbersScreen() {
           <Text style={styles.back}>← Back</Text>
         </TouchableOpacity>
         <Text style={styles.progress}>
-          {score} / {TOTAL} ⭐
+          {score} / {GAME_TOTAL} ⭐
         </Text>
       </View>
 
       <View style={styles.progressBar}>
-        <View
-          style={[styles.progressFill, { width: `${(score / TOTAL) * 100}%` }]}
-        />
+        <View style={[styles.progressFill, { width: `${(score / GAME_TOTAL) * 100}%` }]} />
       </View>
 
       <View style={styles.questionCard}>
@@ -105,10 +51,8 @@ export default function NumbersScreen() {
               styles.numberCard,
               selected === item.number && {
                 borderWidth: 4,
-                borderColor:
-                  item.number === question.number ? "#00C853" : "#FF1744",
-                backgroundColor:
-                  item.number === question.number ? "#E8FFE8" : "#FFE8E8",
+                borderColor: item.number === question.number ? "#00C853" : "#FF1744",
+                backgroundColor: item.number === question.number ? "#E8FFE8" : "#FFE8E8",
               },
             ]}
             onPress={() => handleSelect(item)}
@@ -118,6 +62,7 @@ export default function NumbersScreen() {
           </TouchableOpacity>
         ))}
       </View>
+
       <ConfettiCannon
         ref={confettiRef}
         count={100}
@@ -146,11 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 24,
   },
-  progressFill: {
-    height: 8,
-    backgroundColor: "#6B4EFF",
-    borderRadius: 4,
-  },
+  progressFill: { height: 8, backgroundColor: "#6B4EFF", borderRadius: 4 },
   questionCard: {
     backgroundColor: "#fff",
     borderRadius: 20,

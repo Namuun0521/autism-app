@@ -31,7 +31,7 @@ export const getTotalStars = async () => {
   const user = auth.currentUser;
   if (!user) return 0;
 
-  const activities = ["Colors", "Letters", "Numbers", "Emotions"];
+  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
   let total = 0;
 
   for (const activity of activities) {
