@@ -1,8 +1,8 @@
 import { doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
-
 import { auth, db } from "./config";
 
-// Хүүхдийн дэвшил хадгалах
+const ACTIVITIES = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
+
 export const saveProgress = async (activity, score) => {
   const user = auth.currentUser;
   if (!user) return;
@@ -26,37 +26,24 @@ export const saveProgress = async (activity, score) => {
   }
 };
 
-// Нийт од авах
 export const getTotalStars = async () => {
   const user = auth.currentUser;
   if (!user) return 0;
 
-  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
-  let total = 0;
-
-  for (const activity of activities) {
-    const ref = doc(db, "users", user.uid, "progress", activity);
-    const snap = await getDoc(ref);
-    if (snap.exists()) {
-      total += snap.data().totalScore || 0;
-    }
-  }
-  return total;
+  const snaps = await Promise.all(
+    ACTIVITIES.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
+  );
+  return snaps.reduce((total, snap) => total + (snap.exists() ? snap.data().totalScore || 0 : 0), 0);
 };
 
-// Activity тус бүрийн дэвшил авах
 export const getActivityProgress = async () => {
   const user = auth.currentUser;
   if (!user) return {};
 
-  const activities = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
-  const progress = {};
-
-  for (const activity of activities) {
-    const ref = doc(db, "users", user.uid, "progress", activity);
-    const snap = await getDoc(ref);
-    progress[activity] = snap.exists() ? snap.data().totalScore || 0 : 0;
-  }
-  return progress;
+  const snaps = await Promise.all(
+    ACTIVITIES.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
+  );
+  return Object.fromEntries(
+    ACTIVITIES.map((a, i) => [a, snaps[i].exists() ? snaps[i].data().totalScore || 0 : 0])
+  );
 };
-

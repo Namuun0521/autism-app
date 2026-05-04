@@ -10,8 +10,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const CHILD_NAME_KEY = "child_name";
+import { CHILD_NAME_KEY } from "../../constants";
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();

@@ -1,21 +1,19 @@
 import { Audio } from "expo-av";
 
-export const playCorrect = async () => {
-  const { sound } = await Audio.Sound.createAsync(
-    require("../../assets/sounds/correct.wav")
-  );
-  await sound.playAsync();
-  sound.setOnPlaybackStatusUpdate((status) => {
-    if (status.didJustFinish) sound.unloadAsync();
-  });
+const playSound = async (file) => {
+  try {
+    const { sound } = await Audio.Sound.createAsync(file);
+    await sound.playAsync();
+    sound.setOnPlaybackStatusUpdate((status) => {
+      if (status.didJustFinish) sound.unloadAsync();
+    });
+  } catch {
+    // Sound failure should not interrupt gameplay
+  }
 };
 
-export const playWrong = async () => {
-  const { sound } = await Audio.Sound.createAsync(
-    require("../../assets/sounds/wrong.wav")
-  );
-  await sound.playAsync();
-  sound.setOnPlaybackStatusUpdate((status) => {
-    if (status.didJustFinish) sound.unloadAsync();
-  });
-};
+export const playCorrect = () =>
+  playSound(require("../../assets/sounds/correct.wav"));
+
+export const playWrong = () =>
+  playSound(require("../../assets/sounds/wrong.wav"));

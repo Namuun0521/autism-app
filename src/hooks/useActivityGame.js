@@ -2,10 +2,11 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useRef, useState } from "react";
 import { Alert } from "react-native";
+import { GAME_TOTAL } from "../constants";
 import { saveProgress } from "../firebase/firestore";
 import { playCorrect, playWrong } from "../utils/sounds";
 
-export const GAME_TOTAL = 10;
+export { GAME_TOTAL };
 
 export function useActivityGame(items, getKey, activityName, completionMessage) {
   const getOptions = (correct) => {

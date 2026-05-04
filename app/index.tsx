@@ -13,10 +13,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { CHILD_NAME_KEY, GAME_TOTAL } from "../src/constants";
 import { auth } from "../src/firebase/config";
 import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
-
-const CHILD_NAME_KEY = "child_name";
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -106,7 +105,7 @@ export default function HomeScreen() {
         { key: "Animals", emoji: "🐶", label: "Animals" },
       ].map(({ key, emoji, label }) => {
         const score = progress[key] || 0;
-        const pct = Math.min((score / 10) * 100, 100);
+        const pct = Math.min((score / GAME_TOTAL) * 100, 100);
         return (
           <View key={key} style={styles.progressCard}>
             <View style={styles.progressHeader}>
