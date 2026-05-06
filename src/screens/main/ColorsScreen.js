@@ -1,8 +1,6 @@
-import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import ConfettiCannon from "react-native-confetti-cannon";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GAME_TOTAL, useActivityGame } from "../../hooks/useActivityGame";
+import ActivityLayout from "../../components/ActivityLayout";
+import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
 
 const COLORS = [
@@ -15,25 +13,11 @@ const COLORS = [
 ];
 
 export default function ColorsScreen() {
-  const insets = useSafeAreaInsets();
   const { selected, score, question, options, confettiRef, handleSelect } =
     useActivityGame(COLORS, (c) => c.name, "Colors", "You found all 10 colors!");
 
   return (
-    <View style={[activityStyles.container, { paddingTop: insets.top }]}>
-      <View style={activityStyles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text style={activityStyles.back}>← Back</Text>
-        </TouchableOpacity>
-        <Text style={activityStyles.progress}>
-          {score} / {GAME_TOTAL} ⭐
-        </Text>
-      </View>
-
-      <View style={activityStyles.progressBar}>
-        <View style={[activityStyles.progressFill, { width: `${(score / GAME_TOTAL) * 100}%` }]} />
-      </View>
-
+    <ActivityLayout score={score} confettiRef={confettiRef}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Find this color!</Text>
         <View style={[styles.colorCircle, { backgroundColor: question.hex }]} />
@@ -56,15 +40,7 @@ export default function ColorsScreen() {
           </TouchableOpacity>
         ))}
       </View>
-
-      <ConfettiCannon
-        ref={confettiRef}
-        count={100}
-        origin={{ x: -10, y: 0 }}
-        autoStart={false}
-        fadeOut={true}
-      />
-    </View>
+    </ActivityLayout>
   );
 }
 

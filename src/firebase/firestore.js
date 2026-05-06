@@ -1,4 +1,4 @@
-import { doc, getDoc, increment, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "./config";
 
 const ACTIVITIES = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
@@ -14,14 +14,14 @@ export const saveProgress = async (activity, score) => {
     await updateDoc(ref, {
       totalScore: increment(score),
       timesPlayed: increment(1),
-      lastPlayed: new Date(),
+      lastPlayed: serverTimestamp(),
     });
   } else {
     await setDoc(ref, {
       activity,
       totalScore: score,
       timesPlayed: 1,
-      lastPlayed: new Date(),
+      lastPlayed: serverTimestamp(),
     });
   }
 };

@@ -61,7 +61,7 @@ export default function KidsScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#D6FFE8" }]}
+          style={[styles.card, { backgroundColor: "#FFD6F0" }]}
           onPress={() => router.push("/Animals")}
         >
           <Text style={styles.cardEmoji}>🐶</Text>

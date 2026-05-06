@@ -8,25 +8,34 @@ import { playCorrect, playWrong } from "../utils/sounds";
 
 export { GAME_TOTAL };
 
-export function useActivityGame(items, getKey, activityName, completionMessage) {
-  const getOptions = (correct) => {
-    const wrong = items
-      .filter((item) => getKey(item) !== getKey(correct))
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
-    return [...wrong, correct].sort(() => Math.random() - 0.5);
-  };
+function buildQueue(items, total) {
+  const queue = [];
+  while (queue.length < total) {
+    queue.push(...[...items].sort(() => Math.random() - 0.5));
+  }
+  return queue.slice(0, total);
+}
 
+function makeOptions(items, getKey, correct) {
+  const wrong = items
+    .filter((item) => getKey(item) !== getKey(correct))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+  return [...wrong, correct].sort(() => Math.random() - 0.5);
+}
+
+export function useActivityGame(items, getKey, activityName, completionMessage) {
+  const [queue] = useState(() => buildQueue(items, GAME_TOTAL));
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [options, setOptions] = useState(() => makeOptions(items, getKey, queue[0]));
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const confettiRef = useRef(null);
-  const [question, setQuestion] = useState(
-    () => items[Math.floor(Math.random() * items.length)]
-  );
-  const [options, setOptions] = useState(() => getOptions(question));
+
+  const question = queue[questionIndex];
 
   const handleSelect = async (item) => {
-    if (selected) return;
+    if (selected !== null) return;
     const key = getKey(item);
     setSelected(key);
 
@@ -45,12 +54,11 @@ export function useActivityGame(items, getKey, activityName, completionMessage) 
           ]);
         }, 2000);
       } else {
+        const nextIndex = questionIndex + 1;
         setTimeout(() => {
-          const others = items.filter((i) => getKey(i) !== getKey(question));
-          const newQ = others[Math.floor(Math.random() * others.length)];
+          setQuestionIndex(nextIndex);
+          setOptions(makeOptions(items, getKey, queue[nextIndex]));
           setSelected(null);
-          setQuestion(newQ);
-          setOptions(getOptions(newQ));
         }, 800);
       }
     } else {
