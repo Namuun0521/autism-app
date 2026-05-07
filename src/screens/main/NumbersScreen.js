@@ -18,11 +18,11 @@ const NUMBERS = [
 ];
 
 export default function NumbersScreen() {
-  const { selected, score, question, options, confettiRef, handleSelect } =
-    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!");
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!", () => "Count the items! How many are there?");
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Count the items!</Text>
         <Text style={styles.items}>{question.items}</Text>

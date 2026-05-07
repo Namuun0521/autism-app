@@ -15,11 +15,11 @@ const SHAPES = [
 ];
 
 export default function ShapesScreen() {
-  const { selected, score, question, options, confettiRef, handleSelect } =
-    useActivityGame(SHAPES, (s) => s.name, "Shapes", "You found all 10 shapes!");
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+    useActivityGame(SHAPES, (s) => s.name, "Shapes", "You found all 10 shapes!", () => "What shape is this?");
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>What shape is this?</Text>
         <Text style={styles.questionEmoji}>{question.emoji}</Text>

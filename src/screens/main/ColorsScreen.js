@@ -13,11 +13,11 @@ const COLORS = [
 ];
 
 export default function ColorsScreen() {
-  const { selected, score, question, options, confettiRef, handleSelect } =
-    useActivityGame(COLORS, (c) => c.name, "Colors", "You found all 10 colors!");
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+    useActivityGame(COLORS, (c) => c.name, "Colors", "You found all 10 colors!", (q) => `Can you find the color ${q.name}?`);
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Find this color!</Text>
         <View style={[styles.colorCircle, { backgroundColor: question.hex }]} />

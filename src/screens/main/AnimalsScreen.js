@@ -15,11 +15,11 @@ const ANIMALS = [
 ];
 
 export default function AnimalsScreen() {
-  const { selected, score, question, options, confettiRef, handleSelect } =
-    useActivityGame(ANIMALS, (a) => a.name, "Animals", "You found all 10 animals!");
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+    useActivityGame(ANIMALS, (a) => a.name, "Animals", "You found all 10 animals!", () => "Which animal is this?");
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Which animal is this?</Text>
         <Text style={styles.questionEmoji}>{question.emoji}</Text>

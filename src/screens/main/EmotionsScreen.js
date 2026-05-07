@@ -15,11 +15,11 @@ const EMOTIONS = [
 ];
 
 export default function EmotionsScreen() {
-  const { selected, score, question, options, confettiRef, handleSelect } =
-    useActivityGame(EMOTIONS, (e) => e.name, "Emotions", "You found all 10 emotions!");
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+    useActivityGame(EMOTIONS, (e) => e.name, "Emotions", "You found all 10 emotions!", (q) => q.description);
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Which emotion is this?</Text>
         <Text style={styles.questionEmoji}>{question.emoji}</Text>
