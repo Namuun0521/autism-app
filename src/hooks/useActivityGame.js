@@ -1,6 +1,6 @@
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Alert } from "react-native";
 import { GAME_TOTAL } from "../constants";
 import { saveProgress } from "../firebase/firestore";
@@ -33,12 +33,14 @@ export function useActivityGame(items, getKey, activityName, completionMessage, 
   const [score, setScore] = useState(0);
   const confettiRef = useRef(null);
   const timerRef = useRef(null);
+  const getSpeechTextRef = useRef(getSpeechText);
+  getSpeechTextRef.current = getSpeechText;
 
   const question = queue[questionIndex];
 
   useEffect(() => {
-    if (getSpeechText) speak(getSpeechText(queue[questionIndex]));
-  }, [questionIndex, getSpeechText]);
+    if (getSpeechTextRef.current) speak(getSpeechTextRef.current(queue[questionIndex]));
+  }, [questionIndex]);
 
   useEffect(() => {
     return () => {
@@ -47,9 +49,9 @@ export function useActivityGame(items, getKey, activityName, completionMessage, 
     };
   }, []);
 
-  const speakQuestion = () => {
-    if (getSpeechText) speak(getSpeechText(question));
-  };
+  const speakQuestion = useCallback(() => {
+    if (getSpeechTextRef.current) speak(getSpeechTextRef.current(question));
+  }, [question]);
 
   const handleSelect = async (item) => {
     if (selected !== null) return;

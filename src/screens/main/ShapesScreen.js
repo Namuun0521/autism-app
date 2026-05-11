@@ -35,8 +35,8 @@ export default function ShapesScreen() {
             ]}
             onPress={() => handleSelect(shape)}
           >
-            <Text style={styles.optionEmoji}>{shape.emoji}</Text>
-            <Text style={styles.optionName}>{shape.name}</Text>
+            <Text style={activityStyles.optionEmoji}>{shape.emoji}</Text>
+            <Text style={activityStyles.optionName}>{shape.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -46,6 +46,4 @@ export default function ShapesScreen() {
 
 const styles = StyleSheet.create({
   questionEmoji: { fontSize: 80 },
-  optionEmoji: { fontSize: 40, marginBottom: 8 },
-  optionName: { fontSize: 16, fontWeight: "bold", color: "#333" },
 });

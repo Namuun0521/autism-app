@@ -48,6 +48,8 @@ export const activityStyles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
+  optionEmoji: { fontSize: 40, marginBottom: 8 },
+  optionName: { fontSize: 16, fontWeight: "bold", color: "#333" },
 });
 
 export function selectedCardStyle(isSelected, isCorrect) {

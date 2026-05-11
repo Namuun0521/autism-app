@@ -36,8 +36,8 @@ export default function EmotionsScreen() {
             ]}
             onPress={() => handleSelect(emotion)}
           >
-            <Text style={styles.optionEmoji}>{emotion.emoji}</Text>
-            <Text style={styles.optionName}>{emotion.name}</Text>
+            <Text style={activityStyles.optionEmoji}>{emotion.emoji}</Text>
+            <Text style={activityStyles.optionName}>{emotion.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -48,6 +48,4 @@ export default function EmotionsScreen() {
 const styles = StyleSheet.create({
   questionEmoji: { fontSize: 80, marginBottom: 12 },
   description: { fontSize: 16, color: "#666", fontStyle: "italic" },
-  optionEmoji: { fontSize: 40, marginBottom: 8 },
-  optionName: { fontSize: 16, fontWeight: "bold", color: "#333" },
 });

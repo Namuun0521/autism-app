@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { signOut } from "firebase/auth";
 import { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Alert,
   Modal,
   ScrollView,
@@ -13,7 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { CHILD_NAME_KEY, GAME_TOTAL } from "../src/constants";
+import { ACTIVITIES, CHILD_NAME_KEY, GAME_TOTAL } from "../src/constants";
 import { auth } from "../src/firebase/config";
 import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
 
@@ -24,6 +25,7 @@ export default function HomeScreen() {
   const [childName, setChildName] = useState<string | null>(null);
   const [showNameModal, setShowNameModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -34,22 +36,34 @@ export default function HomeScreen() {
   useFocusEffect(
     useCallback(() => {
       const fetchData = async () => {
-        const [stars, activityProgress, name] = await Promise.all([
-          getTotalStars(),
-          getActivityProgress(),
-          AsyncStorage.getItem(CHILD_NAME_KEY),
-        ]);
-        setTotalStars(stars);
-        setProgress(activityProgress);
-        if (name) {
-          setChildName(name);
-        } else {
-          setShowNameModal(true);
+        setLoading(true);
+        try {
+          const [stars, activityProgress, name] = await Promise.all([
+            getTotalStars(),
+            getActivityProgress(),
+            AsyncStorage.getItem(CHILD_NAME_KEY),
+          ]);
+          setTotalStars(stars);
+          setProgress(activityProgress);
+          if (name) {
+            setChildName(name);
+          } else {
+            setShowNameModal(true);
+          }
+        } finally {
+          setLoading(false);
         }
       };
       fetchData();
     }, []),
   );
+
+  const handleSignOut = () => {
+    Alert.alert("Sign Out", "Are you sure you want to sign out?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Sign Out", style: "destructive", onPress: () => signOut(auth) },
+    ]);
+  };
 
   const handleSaveName = async () => {
     const trimmed = nameInput.trim();
@@ -72,7 +86,7 @@ export default function HomeScreen() {
           <TouchableOpacity onPress={() => router.push("/Settings" as any)}>
             <Text style={styles.settingsIcon}>⚙️</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => signOut(auth)}>
+          <TouchableOpacity onPress={handleSignOut}>
             <Text style={styles.signOut}>Sign out</Text>
           </TouchableOpacity>
         </View>
@@ -96,14 +110,9 @@ export default function HomeScreen() {
 
       <Text style={styles.sectionTitle}>Progress</Text>
 
-      {[
-        { key: "Colors", emoji: "🎨", label: "Colors" },
-        { key: "Letters", emoji: "🔤", label: "Letters" },
-        { key: "Numbers", emoji: "🔢", label: "Numbers" },
-        { key: "Emotions", emoji: "😊", label: "Emotions" },
-        { key: "Shapes", emoji: "🔷", label: "Shapes" },
-        { key: "Animals", emoji: "🐶", label: "Animals" },
-      ].map(({ key, emoji, label }) => {
+      {loading ? (
+        <ActivityIndicator size="large" color="#6B4EFF" style={styles.loader} />
+      ) : ACTIVITIES.map(({ key, emoji, label }) => {
         const score = progress[key] || 0;
         const pct = Math.min((score / GAME_TOTAL) * 100, 100);
         return (
@@ -214,6 +223,7 @@ const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 16,
   },
+  loader: { marginVertical: 32 },
   progressCard: {
     backgroundColor: "#fff",
     borderRadius: 16,

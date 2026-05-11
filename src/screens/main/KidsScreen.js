@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ACTIVITIES } from "../../constants";
 
 export default function KidsScreen() {
   const insets = useSafeAreaInsets();
@@ -20,53 +21,16 @@ export default function KidsScreen() {
       </View>
 
       <View style={styles.grid}>
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#FFD6D6" }]}
-          onPress={() => router.push("/Colors")}
-        >
-          <Text style={styles.cardEmoji}>🎨</Text>
-          <Text style={styles.cardTitle}>Colors</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#D6E8FF" }]}
-          onPress={() => router.push("/Letters")}
-        >
-          <Text style={styles.cardEmoji}>🔤</Text>
-          <Text style={styles.cardTitle}>Letters</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#D6FFE8" }]}
-          onPress={() => router.push("/Numbers")}
-        >
-          <Text style={styles.cardEmoji}>🔢</Text>
-          <Text style={styles.cardTitle}>Numbers</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#FFF3D6" }]}
-          onPress={() => router.push("/Emotions")}
-        >
-          <Text style={styles.cardEmoji}>😊</Text>
-          <Text style={styles.cardTitle}>Emotions</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#E8D6FF" }]}
-          onPress={() => router.push("/Shapes")}
-        >
-          <Text style={styles.cardEmoji}>🔷</Text>
-          <Text style={styles.cardTitle}>Shapes</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.card, { backgroundColor: "#FFD6F0" }]}
-          onPress={() => router.push("/Animals")}
-        >
-          <Text style={styles.cardEmoji}>🐶</Text>
-          <Text style={styles.cardTitle}>Animals</Text>
-        </TouchableOpacity>
+        {ACTIVITIES.map(({ key, emoji, label, bg, route }) => (
+          <TouchableOpacity
+            key={key}
+            style={[styles.card, { backgroundColor: bg }]}
+            onPress={() => router.push(route)}
+          >
+            <Text style={styles.cardEmoji}>{emoji}</Text>
+            <Text style={styles.cardTitle}>{label}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </ScrollView>
   );

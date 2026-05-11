@@ -35,8 +35,8 @@ export default function AnimalsScreen() {
             ]}
             onPress={() => handleSelect(animal)}
           >
-            <Text style={styles.optionEmoji}>{animal.emoji}</Text>
-            <Text style={styles.optionName}>{animal.name}</Text>
+            <Text style={activityStyles.optionEmoji}>{animal.emoji}</Text>
+            <Text style={activityStyles.optionName}>{animal.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -46,6 +46,4 @@ export default function AnimalsScreen() {
 
 const styles = StyleSheet.create({
   questionEmoji: { fontSize: 80 },
-  optionEmoji: { fontSize: 40, marginBottom: 8 },
-  optionName: { fontSize: 16, fontWeight: "bold", color: "#333" },
 });

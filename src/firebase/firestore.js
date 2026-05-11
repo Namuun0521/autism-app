@@ -1,7 +1,8 @@
 import { doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { ACTIVITIES as ACTIVITY_LIST } from "../constants";
 import { auth, db } from "./config";
 
-const ACTIVITIES = ["Colors", "Letters", "Numbers", "Emotions", "Shapes", "Animals"];
+const ACTIVITY_KEYS = ACTIVITY_LIST.map((a) => a.key);
 
 export const saveProgress = async (activity, score) => {
   const user = auth.currentUser;
@@ -31,7 +32,7 @@ export const getTotalStars = async () => {
   if (!user) return 0;
 
   const snaps = await Promise.all(
-    ACTIVITIES.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
+    ACTIVITY_KEYS.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
   );
   return snaps.reduce((total, snap) => total + (snap.exists() ? snap.data().totalScore || 0 : 0), 0);
 };
@@ -41,9 +42,9 @@ export const getActivityProgress = async () => {
   if (!user) return {};
 
   const snaps = await Promise.all(
-    ACTIVITIES.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
+    ACTIVITY_KEYS.map((a) => getDoc(doc(db, "users", user.uid, "progress", a)))
   );
   return Object.fromEntries(
-    ACTIVITIES.map((a, i) => [a, snaps[i].exists() ? snaps[i].data().totalScore || 0 : 0])
+    ACTIVITY_KEYS.map((a, i) => [a, snaps[i].exists() ? snaps[i].data().totalScore || 0 : 0])
   );
 };
