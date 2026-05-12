@@ -1,15 +1,17 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityLayout from "../../components/ActivityLayout";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { THEME } from "../../constants";
 
 const COLORS = [
-  { name: "Red", hex: "#FF6B6B", emoji: "🔴" },
-  { name: "Blue", hex: "#87CEEB", emoji: "🔵" },
-  { name: "Yellow", hex: "#FFE66D", emoji: "🟡" },
-  { name: "Green", hex: "#95E77E", emoji: "🟢" },
-  { name: "Purple", hex: "#B8A9FF", emoji: "🟣" },
-  { name: "Orange", hex: "#FFA07A", emoji: "🟠" },
+  { name: "Red",    hex: "#FF6B6B", dark: "#E53935", emoji: "🔴" },
+  { name: "Blue",   hex: "#4FACFE", dark: "#1565C0", emoji: "🔵" },
+  { name: "Yellow", hex: "#F6D365", dark: "#F57F17", emoji: "🟡" },
+  { name: "Green",  hex: "#43E97B", dark: "#2E7D32", emoji: "🟢" },
+  { name: "Purple", hex: "#A78BFA", dark: "#6A1B9A", emoji: "🟣" },
+  { name: "Orange", hex: "#FDA085", dark: "#E65100", emoji: "🟠" },
 ];
 
 export default function ColorsScreen() {
@@ -20,7 +22,10 @@ export default function ColorsScreen() {
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>Find this color!</Text>
-        <View style={[styles.colorCircle, { backgroundColor: question.hex }]} />
+        <LinearGradient
+          colors={[question.hex, question.dark]}
+          style={styles.colorCircle}
+        />
         <Text style={styles.colorName}>{question.name}</Text>
       </View>
 
@@ -34,6 +39,7 @@ export default function ColorsScreen() {
               selectedCardStyle(selected === color.name, color.name === question.name),
             ]}
             onPress={() => handleSelect(color)}
+            activeOpacity={0.82}
           >
             <Text style={styles.colorEmoji}>{color.emoji}</Text>
             <Text style={styles.colorLabel}>{color.name}</Text>
@@ -45,8 +51,18 @@ export default function ColorsScreen() {
 }
 
 const styles = StyleSheet.create({
-  colorCircle: { width: 80, height: 80, borderRadius: 40, marginBottom: 12 },
-  colorName: { fontSize: 24, fontWeight: "bold", color: "#333" },
-  colorEmoji: { fontSize: 32, marginBottom: 8 },
-  colorLabel: { fontSize: 16, fontWeight: "bold", color: "#333" },
+  colorCircle: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    marginBottom: 14,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
+  },
+  colorName: { fontSize: 26, fontWeight: "800", color: THEME.text },
+  colorEmoji: { fontSize: 34, marginBottom: 8 },
+  colorLabel: { fontSize: 15, fontWeight: "700", color: "#333" },
 });

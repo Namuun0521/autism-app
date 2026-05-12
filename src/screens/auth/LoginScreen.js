@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -16,6 +17,7 @@ import {
   View,
 } from "react-native";
 import { auth } from "../../firebase/config";
+import { GRADIENTS, THEME } from "../../constants";
 
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
@@ -45,133 +47,189 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { paddingTop: insets.top }]}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <View style={styles.header}>
-        <Text style={styles.emoji}>🌟</Text>
-        <Text style={styles.title}>LittleLearner</Text>
-        <Text style={styles.subtitle}>
-          {isLogin ? "Welcome back!" : "Create your account"}
-        </Text>
-      </View>
-
-      <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#999"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#999"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={handleAuth}
-          disabled={loading}
-        >
-          <Text style={styles.buttonText}>
-            {loading ? "Loading..." : isLogin ? "Login" : "Register"}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
-          <Text style={styles.switchText}>
-            {isLogin
-              ? "Don't have an account? Register"
-              : "Already have an account? Login"}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.links}>
-          <TouchableOpacity onPress={() => router.push("/Privacy")}>
-            <Text style={styles.link}>Privacy Policy</Text>
-          </TouchableOpacity>
-          <Text style={styles.linkDivider}>·</Text>
-          <TouchableOpacity onPress={() => router.push("/Terms")}>
-            <Text style={styles.link}>Terms of Service</Text>
-          </TouchableOpacity>
+    <LinearGradient colors={GRADIENTS.brand} style={styles.gradientBg}>
+      <KeyboardAvoidingView
+        style={[styles.container, { paddingTop: insets.top }]}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.heroSection}>
+          <View style={styles.logoCircle}>
+            <Text style={styles.logoEmoji}>🌟</Text>
+          </View>
+          <Text style={styles.appName}>LittleLearner</Text>
+          <Text style={styles.tagline}>Learning made fun & magical ✨</Text>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>
+            {isLogin ? "Welcome back!" : "Create account"}
+          </Text>
+          <Text style={styles.cardSub}>
+            {isLogin ? "Sign in to continue" : "Start your journey today"}
+          </Text>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Email</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="your@email.com"
+              placeholderTextColor="#C4B5FD"
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="••••••••"
+              placeholderTextColor="#C4B5FD"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={handleAuth}
+            disabled={loading}
+            activeOpacity={0.85}
+          >
+            <LinearGradient
+              colors={loading ? ["#C4B5FD", "#C4B5FD"] : GRADIENTS.brand}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>
+                {loading ? "Loading..." : isLogin ? "Sign In" : "Register"}
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={styles.switchRow}>
+            <Text style={styles.switchText}>
+              {isLogin ? "Don't have an account? " : "Already have an account? "}
+              <Text style={styles.switchLink}>
+                {isLogin ? "Register" : "Sign In"}
+              </Text>
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles.links}>
+            <TouchableOpacity onPress={() => router.push("/Privacy")}>
+              <Text style={styles.link}>Privacy Policy</Text>
+            </TouchableOpacity>
+            <Text style={styles.linkDivider}>·</Text>
+            <TouchableOpacity onPress={() => router.push("/Terms")}>
+              <Text style={styles.link}>Terms of Service</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradientBg: { flex: 1 },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    padding: 24,
+    justifyContent: "flex-end",
+    paddingBottom: 0,
   },
-  header: {
+  heroSection: {
     alignItems: "center",
-    marginBottom: 40,
+    paddingBottom: 40,
+    paddingTop: 20,
   },
-  emoji: {
-    fontSize: 64,
-    marginBottom: 12,
+  logoCircle: {
+    width: 90,
+    height: 90,
+    backgroundColor: "rgba(255,255,255,0.25)",
+    borderRadius: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.4)",
   },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#6B4EFF",
+  logoEmoji: { fontSize: 48 },
+  appName: {
+    fontSize: 36,
+    fontWeight: "900",
+    color: "#fff",
+    letterSpacing: 0.5,
     marginBottom: 8,
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#999",
+  tagline: {
+    fontSize: 15,
+    color: "rgba(255,255,255,0.8)",
+    fontWeight: "500",
   },
-  form: {
-    gap: 12,
+  card: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    padding: 32,
+    paddingBottom: 48,
+    shadowColor: "#000",
+    shadowOpacity: 0.15,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: -8 },
+    elevation: 20,
+  },
+  cardTitle: {
+    fontSize: 26,
+    fontWeight: "800",
+    color: THEME.text,
+    marginBottom: 4,
+  },
+  cardSub: {
+    fontSize: 14,
+    color: THEME.textSub,
+    marginBottom: 28,
+  },
+  inputGroup: { marginBottom: 16 },
+  inputLabel: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: THEME.text,
+    marginBottom: 8,
+    letterSpacing: 0.3,
   },
   input: {
-    borderWidth: 1.5,
-    borderColor: "#E8E8E8",
+    borderWidth: 2,
+    borderColor: "#EDE9FE",
     borderRadius: 16,
     padding: 16,
     fontSize: 16,
-    backgroundColor: "#F8F8F8",
-    color: "#333",
+    backgroundColor: "#F8F6FF",
+    color: THEME.text,
   },
   button: {
-    backgroundColor: "#6B4EFF",
-    borderRadius: 16,
+    borderRadius: 18,
     padding: 18,
     alignItems: "center",
     marginTop: 8,
+    shadowColor: THEME.brand,
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 8,
   },
-  buttonDisabled: {
-    backgroundColor: "#B8A9FF",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  switchText: {
-    textAlign: "center",
-    color: "#6B4EFF",
-    fontSize: 14,
-    marginTop: 8,
-  },
+  buttonText: { color: "#fff", fontSize: 17, fontWeight: "800" },
+  switchRow: { marginTop: 20, alignItems: "center" },
+  switchText: { fontSize: 14, color: THEME.textSub },
+  switchLink: { color: THEME.brand, fontWeight: "700" },
   links: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 16,
+    marginTop: 20,
     gap: 8,
   },
-  link: { fontSize: 13, color: "#6B4EFF" },
-  linkDivider: { fontSize: 13, color: "#999" },
+  link: { fontSize: 13, color: THEME.brand, fontWeight: "600" },
+  linkDivider: { fontSize: 13, color: "#C4B5FD" },
 });

@@ -1,6 +1,7 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityLayout from "../../components/ActivityLayout";
-import { THEME } from "../../constants";
+import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
 
@@ -51,12 +52,14 @@ export default function LettersScreen() {
             key={item.letter}
             style={[
               activityStyles.optionCard,
-              styles.letterCard,
               selectedCardStyle(selected === item.letter, item.letter === question.letter),
             ]}
             onPress={() => handleSelect(item)}
+            activeOpacity={0.82}
           >
-            <Text style={styles.letter}>{item.letter}</Text>
+            <LinearGradient colors={GRADIENTS.sky} style={styles.letterBadge}>
+              <Text style={styles.letter}>{item.letter}</Text>
+            </LinearGradient>
           </TouchableOpacity>
         ))}
       </View>
@@ -65,8 +68,18 @@ export default function LettersScreen() {
 }
 
 const styles = StyleSheet.create({
-  emoji: { fontSize: 64, marginBottom: 8 },
-  word: { fontSize: 28, fontWeight: "bold", color: "#333", marginBottom: 8 },
-  letterCard: { padding: 24 },
-  letter: { fontSize: 48, fontWeight: "bold", color: THEME.brand },
+  emoji: { fontSize: 72, marginBottom: 10 },
+  word: { fontSize: 30, fontWeight: "800", color: THEME.text, marginBottom: 8 },
+  letterBadge: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#4FACFE",
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  letter: { fontSize: 40, fontWeight: "900", color: "#fff" },
 });
