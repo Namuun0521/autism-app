@@ -4,7 +4,7 @@ import { auth, db } from "./config";
 
 const ACTIVITY_KEYS = ACTIVITY_LIST.map((a) => a.key);
 
-export const saveProgress = async (activity, score) => {
+export const saveProgress = async (activity: string, score: number) => {
   const user = auth.currentUser;
   if (!user) return;
 
