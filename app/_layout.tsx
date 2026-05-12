@@ -38,6 +38,7 @@ export default function RootLayout() {
       <Stack.Screen name="Shapes" />
       <Stack.Screen name="Animals" />
       <Stack.Screen name="BodyParts" />
+      <Stack.Screen name="BasicNeeds" />
       <Stack.Screen name="Settings" />
     </Stack>
   );

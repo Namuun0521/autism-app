@@ -46,5 +46,6 @@ export const ACTIVITIES: Array<{
   { key: "Emotions",  emoji: "😊", label: "Emotions",   gradient: ["#F6D365", "#FDA085"], route: "/Emotions" },
   { key: "Shapes",    emoji: "🔷", label: "Shapes",     gradient: ["#A18CD1", "#FBC2EB"], route: "/Shapes" },
   { key: "Animals",   emoji: "🐶", label: "Animals",    gradient: ["#FF9A9E", "#FECFEF"], route: "/Animals" },
-  { key: "BodyParts", emoji: "🤚", label: "Body Parts", gradient: ["#0ED2F7", "#B2FEFA"], route: "/BodyParts" },
+  { key: "BodyParts",   emoji: "🤚", label: "Body Parts",   gradient: ["#0ED2F7", "#B2FEFA"], route: "/BodyParts" },
+  { key: "BasicNeeds", emoji: "🙋", label: "Basic Needs",  gradient: ["#FFECD2", "#FCB69F"], route: "/BasicNeeds" },
 ];
