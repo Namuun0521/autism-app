@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 const LETTERS = [
   { letter: "A", word: "Apple", emoji: "🍎" },
@@ -54,7 +55,7 @@ export default function LettersScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === item.letter, item.letter === question.letter),
             ]}
-            onPress={() => handleSelect(item)}
+            onPress={() => { speak(item.letter); handleSelect(item); }}
             activeOpacity={0.82}
           >
             <LinearGradient colors={GRADIENTS.sky} style={styles.letterBadge}>

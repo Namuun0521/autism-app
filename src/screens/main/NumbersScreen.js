@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 const NUMBERS = [
   { number: 1,  emoji: "1️⃣", items: "🌟" },
@@ -20,7 +21,7 @@ const NUMBERS = [
 
 export default function NumbersScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!", () => "Count the items! How many are there?");
+    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!", (n) => `Count the items! How many are there? ${n.number}`);
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
@@ -38,7 +39,7 @@ export default function NumbersScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === item.number, item.number === question.number),
             ]}
-            onPress={() => handleSelect(item)}
+            onPress={() => { speak(String(item.number)); handleSelect(item); }}
             activeOpacity={0.82}
           >
             <LinearGradient colors={GRADIENTS.mint} style={styles.numberBadge}>

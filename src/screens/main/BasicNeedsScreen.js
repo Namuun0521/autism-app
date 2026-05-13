@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 // Each need: a situation emoji (problem) + what the child needs (answer)
 const NEEDS = [
@@ -47,7 +48,7 @@ export default function BasicNeedsScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === need.name, need.name === question.name),
             ]}
-            onPress={() => handleSelect(need)}
+            onPress={() => { speak(need.name); handleSelect(need); }}
             activeOpacity={0.82}
           >
             <Text style={activityStyles.optionEmoji}>{need.needEmoji}</Text>

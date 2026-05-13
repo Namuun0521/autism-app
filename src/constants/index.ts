@@ -48,4 +48,6 @@ export const ACTIVITIES: Array<{
   { key: "Animals",   emoji: "🐶", label: "Animals",    gradient: ["#FF9A9E", "#FECFEF"], route: "/Animals" },
   { key: "BodyParts",   emoji: "🤚", label: "Body Parts",   gradient: ["#0ED2F7", "#B2FEFA"], route: "/BodyParts" },
   { key: "BasicNeeds", emoji: "🙋", label: "Basic Needs",  gradient: ["#FFECD2", "#FCB69F"], route: "/BasicNeeds" },
+  { key: "Clothing",  emoji: "👕", label: "Clothing",  gradient: ["#667EEA", "#764BA2"], route: "/Clothing" },
+  { key: "Vehicles",  emoji: "🚗", label: "Vehicles",  gradient: ["#4FACFE", "#00F2FE"], route: "/Vehicles" },
 ];

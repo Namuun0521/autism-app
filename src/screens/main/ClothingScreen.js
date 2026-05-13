@@ -6,43 +6,43 @@ import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
 import { speak } from "../../utils/speech";
 
-const SHAPES = [
-  { name: "Circle",    emoji: "🔵" },
-  { name: "Square",    emoji: "🟥" },
-  { name: "Triangle",  emoji: "🔺" },
-  { name: "Star",      emoji: "⭐" },
-  { name: "Heart",     emoji: "❤️" },
-  { name: "Diamond",   emoji: "💎" },
-  { name: "Rectangle", emoji: "🟦" },
-  { name: "Oval",      emoji: "🥚" },
+const CLOTHING = [
+  { name: "T-Shirt",  emoji: "👕" },
+  { name: "Pants",    emoji: "👖" },
+  { name: "Sneakers", emoji: "👟" },
+  { name: "Jacket",   emoji: "🧥" },
+  { name: "Hat",      emoji: "🧢" },
+  { name: "Gloves",   emoji: "🧤" },
+  { name: "Scarf",    emoji: "🧣" },
+  { name: "Dress",    emoji: "👗" },
 ];
 
-export default function ShapesScreen() {
+export default function ClothingScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(SHAPES, (s) => s.name, "Shapes", "You found all 10 shapes!", (s) => `Find the ${s.name}!`);
+    useActivityGame(CLOTHING, (c) => c.name, "Clothing", "You found all 10 clothes!", (c) => `Find the ${c.name}!`);
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
-        <Text style={activityStyles.questionText}>What shape is this?</Text>
-        <LinearGradient colors={GRADIENTS.violet} style={styles.shapeCircle}>
+        <Text style={activityStyles.questionText}>What is this?</Text>
+        <LinearGradient colors={GRADIENTS.brand} style={styles.clothingCircle}>
           <Text style={styles.questionEmoji}>{question.emoji}</Text>
         </LinearGradient>
       </View>
 
       <View style={activityStyles.grid}>
-        {options.map((shape) => (
+        {options.map((item) => (
           <TouchableOpacity
-            key={shape.name}
+            key={item.name}
             style={[
               activityStyles.optionCard,
-              selectedCardStyle(selected === shape.name, shape.name === question.name),
+              selectedCardStyle(selected === item.name, item.name === question.name),
             ]}
-            onPress={() => { speak(shape.name); handleSelect(shape); }}
+            onPress={() => { speak(item.name); handleSelect(item); }}
             activeOpacity={0.82}
           >
-            <Text style={activityStyles.optionEmoji}>{shape.emoji}</Text>
-            <Text style={activityStyles.optionName}>{shape.name}</Text>
+            <Text style={activityStyles.optionEmoji}>{item.emoji}</Text>
+            <Text style={activityStyles.optionName}>{item.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -51,14 +51,14 @@ export default function ShapesScreen() {
 }
 
 const styles = StyleSheet.create({
-  shapeCircle: {
+  clothingCircle: {
     width: 100,
     height: 100,
     borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
-    shadowColor: "#A18CD1",
+    shadowColor: "#7C5CFC",
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 6,

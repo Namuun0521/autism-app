@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityLayout from "../../components/ActivityLayout";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 import { THEME } from "../../constants";
 
 const COLORS = [
@@ -38,7 +39,7 @@ export default function ColorsScreen() {
               { backgroundColor: color.hex },
               selectedCardStyle(selected === color.name, color.name === question.name),
             ]}
-            onPress={() => handleSelect(color)}
+            onPress={() => { speak(color.name); handleSelect(color); }}
             activeOpacity={0.82}
           >
             <Text style={styles.colorEmoji}>{color.emoji}</Text>

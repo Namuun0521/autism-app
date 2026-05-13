@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 const BODY_PARTS = [
   { name: "Eye",   emoji: "👁️" },
@@ -44,7 +45,7 @@ export default function BodyPartsScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === part.name, part.name === question.name),
             ]}
-            onPress={() => handleSelect(part)}
+            onPress={() => { speak(part.name); handleSelect(part); }}
             activeOpacity={0.82}
           >
             <Text style={activityStyles.optionEmoji}>{part.emoji}</Text>

@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 const EMOTIONS = [
   { name: "Happy",     emoji: "😊", description: "I feel happy!" },
@@ -38,7 +39,7 @@ export default function EmotionsScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === emotion.name, emotion.name === question.name),
             ]}
-            onPress={() => handleSelect(emotion)}
+            onPress={() => { speak(emotion.name); handleSelect(emotion); }}
             activeOpacity={0.82}
           >
             <Text style={activityStyles.optionEmoji}>{emotion.emoji}</Text>

@@ -4,6 +4,7 @@ import ActivityLayout from "../../components/ActivityLayout";
 import { GRADIENTS } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
+import { speak } from "../../utils/speech";
 
 const ANIMALS = [
   { name: "Dog",     emoji: "🐶" },
@@ -18,7 +19,7 @@ const ANIMALS = [
 
 export default function AnimalsScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(ANIMALS, (a) => a.name, "Animals", "You found all 10 animals!", () => "Which animal is this?");
+    useActivityGame(ANIMALS, (a) => a.name, "Animals", "You found all 10 animals!", (a) => `Find the ${a.name}!`);
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
@@ -37,7 +38,7 @@ export default function AnimalsScreen() {
               activityStyles.optionCard,
               selectedCardStyle(selected === animal.name, animal.name === question.name),
             ]}
-            onPress={() => handleSelect(animal)}
+            onPress={() => { speak(animal.name); handleSelect(animal); }}
             activeOpacity={0.82}
           >
             <Text style={activityStyles.optionEmoji}>{animal.emoji}</Text>
