@@ -1,20 +1,20 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityLayout from "../../components/ActivityLayout";
-import { GRADIENTS } from "../../constants";
+import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
 import { speak } from "../../utils/speech";
 
 const VEHICLES = [
-  { name: "Car",         emoji: "🚗" },
-  { name: "Bus",         emoji: "🚌" },
-  { name: "Airplane",    emoji: "✈️" },
-  { name: "Train",       emoji: "🚂" },
-  { name: "Boat",        emoji: "🚢" },
-  { name: "Helicopter",  emoji: "🚁" },
-  { name: "Bicycle",     emoji: "🚲" },
-  { name: "Fire Truck",  emoji: "🚒" },
+  { name: "Car", emoji: "🚗" },
+  { name: "Bus", emoji: "🚌" },
+  { name: "Airplane", emoji: "✈️" },
+  { name: "Train", emoji: "🚂" },
+  { name: "Boat", emoji: "🚢" },
+  { name: "Helicopter", emoji: "🚁" },
+  { name: "Bicycle", emoji: "🚲" },
+  { name: "Fire Truck", emoji: "🚒" },
 ];
 
 export default function VehiclesScreen() {
@@ -24,10 +24,11 @@ export default function VehiclesScreen() {
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
-        <Text style={activityStyles.questionText}>What is this?</Text>
+        <Text style={activityStyles.questionText}>Find this vehicle!</Text>
         <LinearGradient colors={GRADIENTS.sky} style={styles.vehicleCircle}>
           <Text style={styles.questionEmoji}>{question.emoji}</Text>
         </LinearGradient>
+        <Text style={styles.vehicleName}>{question.name}</Text>
       </View>
 
       <View style={activityStyles.grid}>
@@ -58,10 +59,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
-    shadowColor: "#4FACFE",
+    shadowColor: THEME.shadow,
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 6,
   },
-  questionEmoji: { fontSize: 64 },
+  questionEmoji: { fontSize: 56 },
+  vehicleName: { fontSize: 26, fontWeight: "800", color: THEME.text, marginTop: 10 },
 });

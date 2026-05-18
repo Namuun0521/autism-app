@@ -1,20 +1,20 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ActivityLayout from "../../components/ActivityLayout";
-import { GRADIENTS } from "../../constants";
+import { GRADIENTS, THEME } from "../../constants";
 import { useActivityGame } from "../../hooks/useActivityGame";
 import { activityStyles, selectedCardStyle } from "../../styles/activity";
 import { speak } from "../../utils/speech";
 
 const ANIMALS = [
-  { name: "Dog",     emoji: "🐶" },
-  { name: "Cat",     emoji: "🐱" },
-  { name: "Elephant",emoji: "🐘" },
-  { name: "Lion",    emoji: "🦁" },
-  { name: "Rabbit",  emoji: "🐰" },
+  { name: "Dog", emoji: "🐶" },
+  { name: "Cat", emoji: "🐱" },
+  { name: "Elephant", emoji: "🐘" },
+  { name: "Lion", emoji: "🦁" },
+  { name: "Rabbit", emoji: "🐰" },
   { name: "Penguin", emoji: "🐧" },
-  { name: "Bear",    emoji: "🐻" },
-  { name: "Monkey",  emoji: "🐵" },
+  { name: "Bear", emoji: "🐻" },
+  { name: "Monkey", emoji: "🐵" },
 ];
 
 export default function AnimalsScreen() {
@@ -24,10 +24,11 @@ export default function AnimalsScreen() {
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
       <View style={activityStyles.questionCard}>
-        <Text style={activityStyles.questionText}>Which animal is this?</Text>
+        <Text style={activityStyles.questionText}>Find this animal!</Text>
         <LinearGradient colors={GRADIENTS.coral} style={styles.animalCircle}>
           <Text style={styles.questionEmoji}>{question.emoji}</Text>
         </LinearGradient>
+        <Text style={styles.animalName}>{question.name}</Text>
       </View>
 
       <View style={activityStyles.grid}>
@@ -58,10 +59,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 8,
-    shadowColor: "#FF6B9D",
+    shadowColor: THEME.shadow,
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 6,
   },
-  questionEmoji: { fontSize: 64 },
+  questionEmoji: { fontSize: 56 },
+  animalName: { fontSize: 26, fontWeight: "800", color: THEME.text, marginTop: 10 },
 });
