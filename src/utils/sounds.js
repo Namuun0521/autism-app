@@ -7,8 +7,8 @@ const playSound = async (file) => {
     sound.setOnPlaybackStatusUpdate((status) => {
       if (status.didJustFinish) sound.unloadAsync();
     });
-  } catch {
-    // Sound failure should not interrupt gameplay
+  } catch (e) {
+    console.warn("Sound playback failed:", e);
   }
 };
 

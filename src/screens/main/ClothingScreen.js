@@ -19,7 +19,7 @@ export default function ClothingScreen() {
       gradient={GRADIENTS.brand}
       questionLabel="Find this clothing!"
       activityName="Clothing"
-      completionMessage="You found all 10 clothes!"
+      completionMessage="Amazing! You found all the clothes!"
     />
   );
 }

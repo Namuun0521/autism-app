@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { THEME } from "../../constants";
 
 export default function TermsScreen() {
   const insets = useSafeAreaInsets();
@@ -78,9 +79,8 @@ export default function TermsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F8F6FF" },
+  container: { flex: 1, backgroundColor: THEME.bg },
   content: { padding: 24 },
-
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     gap: 16,
   },
-  back: { fontSize: 16, color: "#6B4EFF", fontWeight: "bold" },
-  title: { fontSize: 22, fontWeight: "bold", color: "#333" },
-  date: { fontSize: 13, color: "#999", marginBottom: 24 },
+  back: { fontSize: 16, color: THEME.brand, fontWeight: "bold" },
+  title: { fontSize: 22, fontWeight: "bold", color: THEME.text },
+  date: { fontSize: 13, color: THEME.textSub, marginBottom: 24 },
   section: { marginBottom: 24 },
-  heading: { fontSize: 16, fontWeight: "bold", color: "#333", marginBottom: 8 },
-  body: { fontSize: 14, color: "#666", lineHeight: 22 },
+  heading: { fontSize: 16, fontWeight: "bold", color: THEME.text, marginBottom: 8 },
+  body: { fontSize: 14, color: THEME.textSub, lineHeight: 22 },
 });

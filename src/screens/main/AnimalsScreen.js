@@ -19,7 +19,7 @@ export default function AnimalsScreen() {
       gradient={GRADIENTS.coral}
       questionLabel="Find this animal!"
       activityName="Animals"
-      completionMessage="You found all 10 animals!"
+      completionMessage="Amazing! You found all the animals!"
     />
   );
 }

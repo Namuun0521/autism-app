@@ -17,7 +17,7 @@ const COLORS = [
 
 export default function ColorsScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(COLORS, (c) => c.name, "Colors", "You found all 10 colors!", (q) => `Can you find the color ${q.name}?`);
+    useActivityGame(COLORS, (c) => c.name, "Colors", "Amazing! You found all the colors!", (q) => `Can you find the color ${q.name}?`);
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
@@ -65,5 +65,5 @@ const styles = StyleSheet.create({
   },
   colorName: { fontSize: 26, fontWeight: "800", color: THEME.text },
   colorEmoji: { fontSize: 34, marginBottom: 8 },
-  colorLabel: { fontSize: 15, fontWeight: "700", color: "#333" },
+  colorLabel: { fontSize: 15, fontWeight: "700", color: THEME.text },
 });

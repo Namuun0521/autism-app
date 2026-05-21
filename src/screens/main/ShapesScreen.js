@@ -19,7 +19,7 @@ export default function ShapesScreen() {
       gradient={GRADIENTS.violet}
       questionLabel="Find this shape!"
       activityName="Shapes"
-      completionMessage="You found all 10 shapes!"
+      completionMessage="Amazing! You found all the shapes!"
     />
   );
 }

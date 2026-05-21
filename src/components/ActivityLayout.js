@@ -51,7 +51,7 @@ export default function ActivityLayout({ score, confettiRef, onSpeak, children }
         origin={{ x: -10, y: 0 }}
         autoStart={false}
         fadeOut={true}
-        colors={["#7C5CFC", "#FF6B9D", "#F6D365", "#43E97B", "#4FACFE"]}
+        colors={[GRADIENTS.brand[0], GRADIENTS.coral[0], GRADIENTS.gold[0], GRADIENTS.mint[0], GRADIENTS.sky[0]]}
       />
     </LinearGradient>
   );

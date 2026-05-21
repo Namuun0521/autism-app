@@ -19,7 +19,7 @@ export default function VehiclesScreen() {
       gradient={GRADIENTS.sky}
       questionLabel="Find this vehicle!"
       activityName="Vehicles"
-      completionMessage="You found all 10 vehicles!"
+      completionMessage="Amazing! You found all the vehicles!"
     />
   );
 }
