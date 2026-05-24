@@ -37,7 +37,7 @@ const LETTERS = [
 
 export default function LettersScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(LETTERS, (l) => l.letter, "Letters", "You found all 10 letters!", (q) => `${q.word}! Which letter does ${q.word} start with?`);
+    useActivityGame(LETTERS, (l) => l.letter, "Letters", "Amazing! You know your letters!", (q) => `${q.word}! Which letter does ${q.word} start with?`);
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
