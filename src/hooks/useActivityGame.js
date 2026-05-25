@@ -53,7 +53,7 @@ export function useActivityGame(items, getKey, activityName, completionMessage, 
     if (getSpeechTextRef.current) speak(getSpeechTextRef.current(question));
   }, [question]);
 
-  const handleSelect = async (item) => {
+  const handleSelect = (item) => {
     if (selected !== null) return;
     const key = getKey(item);
     setSelected(key);
@@ -66,7 +66,7 @@ export function useActivityGame(items, getKey, activityName, completionMessage, 
 
       if (newScore === GAME_TOTAL) {
         confettiRef.current?.start();
-        await saveProgress(activityName, newScore);
+        saveProgress(activityName, newScore);
         timerRef.current = setTimeout(() => {
           Alert.alert("🎉 Amazing!", completionMessage, [
             { text: "Go Home", onPress: () => router.back() },

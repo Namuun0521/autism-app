@@ -51,6 +51,8 @@ export default function HomeScreen() {
           } else {
             setShowNameModal(true);
           }
+        } catch (e) {
+          console.error("Failed to load home data:", e);
         } finally {
           setLoading(false);
         }

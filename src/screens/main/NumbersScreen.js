@@ -21,7 +21,7 @@ const NUMBERS = [
 
 export default function NumbersScreen() {
   const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
-    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!", (n) => `Count the items! How many are there? ${n.number}`);
+    useActivityGame(NUMBERS, (n) => n.number, "Numbers", "You counted all 10 numbers!", () => "Count the items! How many are there?");
 
   return (
     <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
