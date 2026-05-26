@@ -19,6 +19,27 @@ import {
 import { auth } from "../../firebase/config";
 import { GRADIENTS, THEME } from "../../constants";
 
+function getFriendlyError(error) {
+  switch (error.code) {
+    case "auth/user-not-found":
+    case "auth/wrong-password":
+    case "auth/invalid-credential":
+      return "Incorrect email or password. Please try again.";
+    case "auth/email-already-in-use":
+      return "This email is already registered. Try signing in instead.";
+    case "auth/weak-password":
+      return "Password must be at least 6 characters.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/too-many-requests":
+      return "Too many attempts. Please wait a moment and try again.";
+    case "auth/network-request-failed":
+      return "Network error. Please check your connection.";
+    default:
+      return "Something went wrong. Please try again.";
+  }
+}
+
 export default function LoginScreen() {
   const insets = useSafeAreaInsets();
   const [email, setEmail] = useState("");
@@ -40,7 +61,7 @@ export default function LoginScreen() {
       }
       router.replace("/");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert("Oops!", getFriendlyError(error));
     } finally {
       setLoading(false);
     }

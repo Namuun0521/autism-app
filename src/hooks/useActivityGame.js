@@ -87,5 +87,5 @@ export function useActivityGame(items, getKey, activityName, completionMessage, 
     }
   };
 
-  return { selected, score, question, options, confettiRef, handleSelect, speakQuestion };
+  return { selected, score, question, options, confettiRef, handleSelect, speakQuestion, questionIndex };
 }

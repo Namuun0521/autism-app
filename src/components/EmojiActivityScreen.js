@@ -18,11 +18,11 @@ export default function EmojiActivityScreen({
   const getSubLabelFn = getSubLabel ?? ((x) => x.name);
   const getSpeechTextFn = getSpeechText ?? ((x) => `Find the ${x.name}!`);
 
-  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion } =
+  const { selected, score, question, options, confettiRef, handleSelect, speakQuestion, questionIndex } =
     useActivityGame(items, (x) => x.name, activityName, completionMessage, getSpeechTextFn);
 
   return (
-    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion}>
+    <ActivityLayout score={score} confettiRef={confettiRef} onSpeak={speakQuestion} questionIndex={questionIndex}>
       <View style={activityStyles.questionCard}>
         <Text style={activityStyles.questionText}>{questionLabel}</Text>
         <LinearGradient colors={gradient} style={styles.circle}>

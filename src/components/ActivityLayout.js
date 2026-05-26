@@ -3,12 +3,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GAME_TOTAL, GRADIENTS } from "../constants";
+import { GAME_TOTAL, GRADIENTS, THEME } from "../constants";
 import { activityStyles } from "../styles/activity";
 
-export default function ActivityLayout({ score, confettiRef, onSpeak, children }) {
+export default function ActivityLayout({ score, confettiRef, onSpeak, questionIndex, children }) {
   const insets = useSafeAreaInsets();
   const pct = (score / GAME_TOTAL) * 100;
+  const currentQ = questionIndex !== undefined ? questionIndex + 1 : score + 1;
 
   return (
     <LinearGradient
@@ -31,6 +32,10 @@ export default function ActivityLayout({ score, confettiRef, onSpeak, children }
               <Text style={styles.scoreText}>{score}/{GAME_TOTAL}</Text>
             </LinearGradient>
           </View>
+        </View>
+
+        <View style={styles.questionRow}>
+          <Text style={styles.questionLabel}>Question {currentQ} of {GAME_TOTAL}</Text>
         </View>
 
         <View style={activityStyles.progressBar}>
@@ -61,6 +66,13 @@ const styles = StyleSheet.create({
   outerContainer: { flex: 1 },
   container: { flex: 1, paddingHorizontal: 20, paddingBottom: 20 },
   headerRight: { flexDirection: "row", alignItems: "center", gap: 10 },
+  questionRow: { alignItems: "center", marginBottom: 6 },
+  questionLabel: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: THEME.textSub,
+    letterSpacing: 0.3,
+  },
   speakButton: {
     width: 42,
     height: 42,

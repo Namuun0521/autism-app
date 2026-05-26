@@ -19,6 +19,13 @@ import { ACTIVITIES, CHILD_NAME_KEY, GAME_TOTAL, GRADIENTS, THEME } from "../src
 import { auth } from "../src/firebase/config";
 import { getActivityProgress, getTotalStars } from "../src/firebase/firestore";
 
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return "Good morning! 🌅";
+  if (h < 17) return "Good afternoon! ☀️";
+  return "Good evening! 🌙";
+}
+
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const [totalStars, setTotalStars] = useState(0);
@@ -89,7 +96,7 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greetingSmall}>Good day! 👋</Text>
+            <Text style={styles.greetingSmall}>{getGreeting()}</Text>
             <Text style={styles.greeting}>
               {childName || auth.currentUser?.email?.split("@")[0]}
             </Text>
@@ -162,7 +169,14 @@ export default function HomeScreen() {
                     style={[styles.progressBarFill, { width: `${pct}%` }]}
                   />
                 </View>
-                <Text style={styles.progressPct}>{Math.round(pct)}% complete</Text>
+                <View style={styles.progressFooter}>
+                  <Text style={styles.progressPct}>{Math.round(pct)}% complete</Text>
+                  {pct >= 100 && (
+                    <View style={styles.completedBadge}>
+                      <Text style={styles.completedText}>✅ Done!</Text>
+                    </View>
+                  )}
+                </View>
               </View>
             );
           })
@@ -332,12 +346,24 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   progressBarFill: { height: 8, borderRadius: 8 },
+  progressFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 6,
+  },
   progressPct: {
     fontSize: 12,
     color: THEME.textSub,
-    marginTop: 6,
     fontWeight: "500",
   },
+  completedBadge: {
+    backgroundColor: "#E6FAF0",
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  completedText: { fontSize: 12, color: "#00C853", fontWeight: "700" },
 
   links: {
     flexDirection: "row",
