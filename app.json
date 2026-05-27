@@ -9,7 +9,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.namuun.autismapp",
       "buildNumber": "1",
       "minimumOsVersion": "16.0",
@@ -17,7 +17,7 @@
         "NSMicrophoneUsageDescription": "LittleLearner does not use the microphone.",
         "NSSpeechRecognitionUsageDescription": "LittleLearner does not use speech recognition.",
         "ITSAppUsesNonExemptEncryption": false,
-        "NSUserTrackingUsageDescription": "LittleLearner does not track users."
+        "NSUserTrackingUsageDescription": "Autismo does not track users."
       },
       "privacyManifests": {
         "NSPrivacyTracking": false,
