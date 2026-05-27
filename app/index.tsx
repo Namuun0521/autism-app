@@ -71,7 +71,14 @@ export default function HomeScreen() {
   const handleSignOut = () => {
     Alert.alert("Sign Out", "Are you sure you want to sign out?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Sign Out", style: "destructive", onPress: () => signOut(auth) },
+      {
+        text: "Sign Out",
+        style: "destructive",
+        onPress: async () => {
+          await signOut(auth);
+          router.replace("/login" as any);
+        },
+      },
     ]);
   };
 
