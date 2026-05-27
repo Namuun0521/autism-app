@@ -1,4 +1,4 @@
-import { doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { ACTIVITIES as ACTIVITY_LIST } from "../constants";
 import { auth, db } from "./config";
 
@@ -43,6 +43,20 @@ export const getTotalStars = async () => {
   } catch (e) {
     console.error("getTotalStars failed:", e);
     return 0;
+  }
+};
+
+export const deleteUserData = async () => {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  try {
+    await Promise.all(
+      ACTIVITY_KEYS.map((a) => deleteDoc(doc(db, "users", user.uid, "progress", a)))
+    );
+  } catch (e) {
+    console.error("deleteUserData failed:", e);
+    throw e;
   }
 };
 

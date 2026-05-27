@@ -103,7 +103,14 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Password</Text>
+            <View style={styles.passwordLabelRow}>
+              <Text style={styles.inputLabel}>Password</Text>
+              {isLogin && (
+                <TouchableOpacity onPress={() => router.push("/ForgotPassword")}>
+                  <Text style={styles.forgotLink}>Forgot password?</Text>
+                </TouchableOpacity>
+              )}
+            </View>
             <TextInput
               style={styles.input}
               placeholder="••••••••"
@@ -217,8 +224,18 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     color: THEME.text,
-    marginBottom: 8,
     letterSpacing: 0.3,
+  },
+  passwordLabelRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  forgotLink: {
+    fontSize: 13,
+    color: THEME.brand,
+    fontWeight: "600",
   },
   input: {
     borderWidth: 2,

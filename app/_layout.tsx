@@ -42,6 +42,7 @@ export default function RootLayout() {
       <Stack.Screen name="Clothing" />
       <Stack.Screen name="Vehicles" />
       <Stack.Screen name="Settings" />
+      <Stack.Screen name="ForgotPassword" />
     </Stack>
   );
 }

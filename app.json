@@ -18,6 +18,17 @@
         "NSSpeechRecognitionUsageDescription": "LittleLearner does not use speech recognition.",
         "ITSAppUsesNonExemptEncryption": false,
         "NSUserTrackingUsageDescription": "LittleLearner does not track users."
+      },
+      "privacyManifests": {
+        "NSPrivacyTracking": false,
+        "NSPrivacyTrackingDomains": [],
+        "NSPrivacyCollectedDataTypes": [],
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+          }
+        ]
       }
     },
     "android": {

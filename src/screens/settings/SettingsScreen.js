@@ -1,9 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { deleteUser } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,12 +14,49 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CHILD_NAME_KEY, GRADIENTS, THEME } from "../../constants";
+import { auth } from "../../firebase/config";
+import { deleteUserData } from "../../firebase/firestore";
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
   const [input, setInput] = useState("");
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDeleteAccount = () => {
+    Alert.alert(
+      "Delete Account",
+      "This will permanently delete your account and all progress data. This cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            setDeleting(true);
+            try {
+              await deleteUserData();
+              await deleteUser(auth.currentUser);
+              await AsyncStorage.removeItem(CHILD_NAME_KEY);
+              router.replace("/login");
+            } catch (error) {
+              if (error.code === "auth/requires-recent-login") {
+                Alert.alert(
+                  "Sign in required",
+                  "Please sign out and sign back in, then try again.",
+                );
+              } else {
+                Alert.alert("Error", "Could not delete account. Please try again.");
+              }
+            } finally {
+              setDeleting(false);
+            }
+          },
+        },
+      ],
+    );
+  };
 
   useEffect(() => {
     AsyncStorage.getItem(CHILD_NAME_KEY).then((val) => {
@@ -38,7 +77,11 @@ export default function SettingsScreen() {
 
   return (
     <LinearGradient colors={GRADIENTS.bg} style={styles.gradientBg}>
-      <View style={[styles.container, { paddingTop: insets.top + 12 }]}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.container, { paddingTop: insets.top + 12 }]}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
             <Text style={styles.backArrow}>←</Text>
@@ -90,14 +133,26 @@ export default function SettingsScreen() {
             </View>
           )}
         </View>
-      </View>
+
+        <TouchableOpacity
+          style={styles.deleteBtn}
+          onPress={handleDeleteAccount}
+          disabled={deleting}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.deleteBtnText}>
+            {deleting ? "Deleting..." : "Delete Account"}
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   gradientBg: { flex: 1 },
-  container: { flex: 1, padding: 22 },
+  scroll: { flex: 1 },
+  container: { padding: 22, paddingBottom: 48 },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -188,4 +243,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnSaveText: { color: "#fff", fontWeight: "800" },
+  deleteBtn: {
+    marginTop: 32,
+    borderRadius: 18,
+    padding: 18,
+    alignItems: "center",
+    backgroundColor: "#FFF0F0",
+    borderWidth: 1.5,
+    borderColor: "#FFCDD2",
+  },
+  deleteBtnText: { color: "#D32F2F", fontSize: 16, fontWeight: "700" },
 });
