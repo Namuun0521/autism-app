@@ -33,7 +33,7 @@ export default function TermsScreen() {
       <View style={styles.section}>
         <Text style={styles.heading}>2. Use of the App</Text>
         <Text style={styles.body}>
-          LittleLearner is designed to support children in learning colors,
+          Autismo is designed to support children in learning colors,
           letters, numbers, shapes, animals, and emotions. The app is intended
           to be used under parental supervision.
         </Text>

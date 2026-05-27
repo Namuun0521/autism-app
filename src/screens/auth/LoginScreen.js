@@ -77,7 +77,7 @@ export default function LoginScreen() {
           <View style={styles.logoCircle}>
             <Text style={styles.logoEmoji}>🌟</Text>
           </View>
-          <Text style={styles.appName}>LittleLearner</Text>
+          <Text style={styles.appName}>Autismo</Text>
           <Text style={styles.tagline}>Learning made fun & magical ✨</Text>
         </View>
 

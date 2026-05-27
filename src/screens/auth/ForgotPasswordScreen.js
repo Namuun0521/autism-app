@@ -53,7 +53,7 @@ export default function ForgotPasswordScreen() {
           <View style={styles.logoCircle}>
             <Text style={styles.logoEmoji}>🔑</Text>
           </View>
-          <Text style={styles.appName}>LittleLearner</Text>
+          <Text style={styles.appName}>Autismo</Text>
           <Text style={styles.tagline}>Reset your password</Text>
         </View>
 

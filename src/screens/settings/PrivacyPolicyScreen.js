@@ -34,7 +34,7 @@ export default function PrivacyPolicyScreen() {
       <View style={styles.section}>
         <Text style={styles.heading}>2. Children's Privacy (COPPA)</Text>
         <Text style={styles.body}>
-          LittleLearner is designed for children with special learning needs. We do not collect any
+          Autismo is designed for children with special learning needs. We do not collect any
           personal information directly from children. All accounts are created
           and managed by parents or guardians.{"\n\n"}
           We do not collect:{"\n"}• Child's real name{"\n"}• Child's photo{"\n"}
