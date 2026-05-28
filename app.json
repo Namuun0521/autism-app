@@ -14,10 +14,9 @@
       "buildNumber": "1",
       "minimumOsVersion": "16.0",
       "infoPlist": {
-        "NSMicrophoneUsageDescription": "LittleLearner does not use the microphone.",
-        "NSSpeechRecognitionUsageDescription": "LittleLearner does not use speech recognition.",
-        "ITSAppUsesNonExemptEncryption": false,
-        "NSUserTrackingUsageDescription": "Autismo does not track users."
+        "NSMicrophoneUsageDescription": "Autismo does not use the microphone.",
+        "NSSpeechRecognitionUsageDescription": "Autismo does not use speech recognition.",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "privacyManifests": {
         "NSPrivacyTracking": false,
